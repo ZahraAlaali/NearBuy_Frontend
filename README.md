@@ -33,7 +33,9 @@
 
 ### ***Screenshots***
 #### ERD
-![image](./Public/images/Database%20ER%20diagram%20(crow's%20foot)%20(2).png)
+![ERD](./Public/images/Database%20ER%20diagram%20(crow's%20foot)%20(2).png)
+#### CHD
+![CHD](./Public/images/Blank%20diagram.png)
 
 ***
 
