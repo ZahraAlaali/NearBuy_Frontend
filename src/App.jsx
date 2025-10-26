@@ -8,6 +8,7 @@ import Nav from "./components/Nav"
 import Register from "./components/Register"
 import SignIn from "./components/SignIn"
 import Home from "./components/Home"
+import CreateStore from "./components/CreateStore"
 
 function App() {
   const [user, setUser] = useState(null)
@@ -19,7 +20,7 @@ function App() {
     }
     const token = localStorage.getItem("token")
     if (token) {
-      checkToken()
+      checkToken
     }
   }, [])
 
@@ -36,6 +37,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/signin" element={<SignIn setUser={setUser} />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/createStore" element={<CreateStore />} />
         </Routes>
       </main>
     </>
