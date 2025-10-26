@@ -24,7 +24,7 @@ const SignIn = ({ setUser }) => {
     <div className="col signin">
       <form className="col" onSubmit={handleSubmit}>
         <div className="input-wrapper">
-          <label htmlFor="email">Email or Usename</label>
+          <label htmlFor="email">Email or Username</label>
           <input
             name="email"
             type="email"

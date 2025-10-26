@@ -25,7 +25,11 @@ const Register = () => {
     let user = await RegisterUser(formValues)
     if (user) {
       setFormValues(initialState)
-      navigate("/signin")
+      if (user.role === "customer") {
+        navigate("/signin")
+      } else {
+        navigate("/createStore")
+      }
     }
   }
 
