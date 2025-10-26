@@ -39,7 +39,7 @@ const Register = () => {
             type="text"
             placeholder="Username"
             onChange={handleChange}
-            value={formValues.name}
+            value={formValues.username}
             required
             autoComplete="username"
           />
@@ -82,6 +82,7 @@ const Register = () => {
         </div>
         <div>
           <input
+            defaultChecked
             required
             type="radio"
             name="role"
@@ -100,9 +101,10 @@ const Register = () => {
         </div>
         <button
           disabled={
+            !formValues.username ||
             !formValues.email ||
-            (!formValues.password &&
-              formValues.password === formValues.confirmPassword)
+            !formValues.password ||
+            formValues.password !== formValues.confirmPassword
           }
         >
           Sign Up
