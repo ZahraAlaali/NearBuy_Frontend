@@ -25,9 +25,6 @@ const Nav = ({ user, handleLogOut }) => {
 
   return (
     <header>
-      <Link to="/">
-        <img className="logo" src="" alt="Logo" />
-      </Link>
       <nav>{user ? userOptions : publicOptions}</nav>
     </header>
   )
