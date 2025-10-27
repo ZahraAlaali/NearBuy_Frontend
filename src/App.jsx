@@ -23,7 +23,7 @@ function App() {
     if (token) {
       checkToken
     }
-  }, [])
+  }, [user])
 
   const handleLogOut = () => {
     setUser(null)
