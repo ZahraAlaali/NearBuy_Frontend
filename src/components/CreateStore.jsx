@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom"
 import CategorySelect from "./CategorySelect.jsx"
 import Cities from "./Cities.jsx"
 
-const CreateStore = () => {
+const CreateStore = ({ setUser, user }) => {
   let navigate = useNavigate()
 
   const initialState = { name: "", description: "", category: [], city: "" }
@@ -28,6 +28,7 @@ const CreateStore = () => {
     const store = await createStore(formValues)
     if (store) {
       setFormValues(initialState)
+      setUser(...user, (hasStore = true))
       navigate("/")
     }
   }
@@ -73,6 +74,13 @@ const CreateStore = () => {
           <button disabled={!formValues.name}>Create Store</button>
         </form>
       </div>
+      <button
+        onClick={() => {
+          navigate("/")
+        }}
+      >
+        Skip For Now
+      </button>
     </>
   )
 }
