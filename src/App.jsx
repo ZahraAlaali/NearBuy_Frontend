@@ -9,7 +9,7 @@ import Register from "./components/Register"
 import SignIn from "./components/SignIn"
 import Home from "./components/Home"
 import ItemsList from "./components/ItemsList"
-import CreateStore from "./components/CreateStore"
+// import CreateStore from "./components/CreateStore"
 
 function App() {
   const [user, setUser] = useState(null)
@@ -39,7 +39,7 @@ function App() {
           <Route path="/signin" element={<SignIn setUser={setUser} />} />
           <Route path="/register" element={<Register />} />
           <Route path="/itemsList" element={<ItemsList />} />
-          <Route path="/createStore" element={<CreateStore />} />
+          {/* <Route path="/createStore" element={<CreateStore />} /> */}
         </Routes>
       </main>
     </>

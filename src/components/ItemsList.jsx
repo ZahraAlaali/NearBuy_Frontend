@@ -2,12 +2,13 @@ import NewItem from "./newItem"
 import { useEffect, useState } from "react"
 import axios from "axios"
 import { BASE_URL } from "../services/api"
+import Client from "../services/api"
 const ItemsList = () => {
   const [items, setItems] = useState([])
   useEffect(() => {
     const getItems = async () => {
       try {
-        let response = await axios.get(`${BASE_URL}/item`)
+        let response = await Client.get(`/item`,{headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },})
         setItems(response.data)
       } catch (err) {
         console.log(err)
