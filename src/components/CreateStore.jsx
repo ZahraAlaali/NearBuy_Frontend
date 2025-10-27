@@ -1,6 +1,8 @@
 import { useState } from "react"
-import { CreateStore } from "../services/Store.js"
+import { createStore } from "../services/Store.js"
 import { useNavigate } from "react-router-dom"
+import CategorySelect from "./CategorySelect.jsx"
+import Cities from "./Cities.jsx"
 
 const CreateStore = () => {
   let navigate = useNavigate()
@@ -10,12 +12,20 @@ const CreateStore = () => {
   const [formValues, setFormValues] = useState(initialState)
 
   const handleChange = (e) => {
-    setFormValues({ ...formValues, [e.target.name]: e.target.value })
+    const { name, value, options, multiple } = e.target
+    if (multiple) {
+      const selected = Array.from(options)
+        .filter((o) => o.selected)
+        .map((o) => o.value)
+      setFormValues({ ...formValues, [name]: selected })
+    } else {
+      setFormValues({ ...formValues, [name]: value })
+    }
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const store = await CreateStore(formValues)
+    const store = await createStore(formValues)
     if (store) {
       setFormValues(initialState)
       navigate("/")
@@ -44,25 +54,23 @@ const CreateStore = () => {
               placeholder=""
               onChange={handleChange}
               value={formValues.description}
-              required
             />
           </div>
 
           <div className="input-wrapper">
-            <label htmlFor="description">Description</label>
-            <input
-              name="description"
-              type="text"
-              placeholder=""
-              onChange={handleChange}
-              value={formValues.description}
-              required
+            <label htmlFor="category">Category</label>
+            <CategorySelect
+              handleChange={handleChange}
+              formValues={formValues}
             />
           </div>
 
-          <button disabled={!formValues.email || !formValues.password}>
-            Sign In
-          </button>
+          <div className="input-wrapper">
+            <label htmlFor="city">City</label>
+            <Cities handleChange={handleChange} formValues={formValues} />
+          </div>
+
+          <button disabled={!formValues.name}>Create Store</button>
         </form>
       </div>
     </>

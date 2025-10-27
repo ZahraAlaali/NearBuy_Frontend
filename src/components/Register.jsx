@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { RegisterUser } from "../services/Auth.js"
+import { RegisterUser, SignInUser } from "../services/Auth.js"
 import { useNavigate } from "react-router-dom"
 
 const Register = () => {
@@ -28,6 +28,10 @@ const Register = () => {
       if (user.role === "customer") {
         navigate("/signin")
       } else {
+        await SignInUser({
+          email: formValues.email,
+          password: formValues.password,
+        })
         navigate("/createStore")
       }
     }
