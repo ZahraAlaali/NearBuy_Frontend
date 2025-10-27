@@ -28,7 +28,7 @@ const CreateStore = ({ setUser, user }) => {
     const store = await createStore(formValues)
     if (store) {
       setFormValues(initialState)
-      setUser(...user, (hasStore = true))
+      setUser({ ...user, hasStore: true })
       navigate("/")
     }
   }
