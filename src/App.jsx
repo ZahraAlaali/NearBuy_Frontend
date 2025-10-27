@@ -1,7 +1,8 @@
 import "./App.css"
 import { useState, useEffect } from "react"
-import { Route, Routes } from "react-router"
+import { Route, Routes, useNavigate } from "react-router"
 import { CheckSession } from "./services/Auth"
+import { Navigate } from "react-router"
 import axios from "axios"
 // components
 import Nav from "./components/Nav"
@@ -12,6 +13,7 @@ import ItemsList from "./components/ItemsList"
 import CreateStore from "./components/CreateStore"
 
 function App() {
+  let navigate = useNavigate()
   const [user, setUser] = useState(null)
 
   useEffect(() => {
@@ -28,6 +30,7 @@ function App() {
   const handleLogOut = () => {
     setUser(null)
     localStorage.clear()
+    navigate("/signin")
   }
 
   return (

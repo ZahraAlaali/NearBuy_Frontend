@@ -3,16 +3,33 @@ const Nav = ({ user, handleLogOut }) => {
   let userOptions
 
   if (user) {
-    userOptions = (
-      <>
-        <h3>Welcome {user.username}!</h3>
-        <Link to="/">Home</Link>
-        <Link onClick={handleLogOut} to="/">
-          Sign Out
-        </Link>
-        <Link to="/itemsList">Add item</Link>
-      </>
-    )
+    if (user.role === "customer") {
+      userOptions = (
+        <>
+          <h3>Welcome {user.username}!</h3>
+          <Link to="/">Home</Link>
+          <Link onClick={handleLogOut} to="/">
+            Sign Out
+          </Link>
+        </>
+      )
+    } else {
+      // business
+      userOptions = (
+        <>
+          <h3>Welcome {user.username}!</h3>
+          <Link to="/">Home</Link>
+          <Link onClick={handleLogOut} to="/">
+            Sign Out
+          </Link>
+          {user.hasStore ? (
+            <Link to="/itemsList">Add item</Link>
+          ) : (
+            <Link to="/createStore">Create Store</Link>
+          )}
+        </>
+      )
+    }
   }
 
   const publicOptions = (
