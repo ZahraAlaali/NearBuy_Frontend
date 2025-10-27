@@ -2,12 +2,13 @@ import "./App.css"
 import { useState, useEffect } from "react"
 import { Route, Routes } from "react-router"
 import { CheckSession } from "./services/Auth"
-
+import axios from "axios"
 // components
 import Nav from "./components/Nav"
 import Register from "./components/Register"
 import SignIn from "./components/SignIn"
 import Home from "./components/Home"
+import ItemsList from "./components/ItemsList"
 import CreateStore from "./components/CreateStore"
 
 function App() {
@@ -37,6 +38,8 @@ function App() {
           <Route path="/" element={<Home user={user} />} />
           <Route path="/signin" element={<SignIn setUser={setUser} />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/itemsList" element={<ItemsList />} />
+          {/* <Route path="/createStore" element={<CreateStore />} /> */}
           <Route
             path="/createStore"
             element={<CreateStore setUser={setUser} user={user} />}
