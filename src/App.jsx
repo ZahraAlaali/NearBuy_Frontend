@@ -35,11 +35,15 @@ function App() {
       <Nav user={user} handleLogOut={handleLogOut} />
       <main>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home user={user} />} />
           <Route path="/signin" element={<SignIn setUser={setUser} />} />
           <Route path="/register" element={<Register />} />
           <Route path="/itemsList" element={<ItemsList />} />
           {/* <Route path="/createStore" element={<CreateStore />} /> */}
+          <Route
+            path="/createStore"
+            element={<CreateStore setUser={setUser} user={user} />}
+          />
         </Routes>
       </main>
     </>

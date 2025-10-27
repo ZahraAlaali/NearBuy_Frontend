@@ -27,12 +27,11 @@ const SignIn = ({ setUser }) => {
           <label htmlFor="email">Email or Username</label>
           <input
             name="email"
-            type="email"
+            type="text"
             placeholder="example@example.com"
             onChange={handleChange}
             value={formValues.email}
             required
-            autoComplete="email"
           />
         </div>
         <div className="input-wrapper">
