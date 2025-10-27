@@ -14,15 +14,24 @@ const Register = () => {
   }
 
   const [formValues, setFormValues] = useState(initialState)
+  const [pictureFile, setPictureFile] = useState(null)
 
   const handleChange = (e) => {
     setFormValues({ ...formValues, [e.target.name]: e.target.value })
   }
 
+  const handleFile = (e) => {
+    setPictureFile(e.target.files?.[0] || null)
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    let user = await RegisterUser(formValues)
+    const fd = new FormData()
+    Object.entries(formValues).forEach(([k, v]) => fd.append(k, v))
+    if (pictureFile) fd.append("picture", pictureFile)
+
+    let user = await RegisterUser(fd)
     if (user) {
       setFormValues(initialState)
       if (user.role === "customer") {
@@ -107,6 +116,14 @@ const Register = () => {
           />
           Business
         </div>
+
+        <input
+          type="file"
+          name="picture"
+          accept="image/*"
+          onChange={handleFile}
+        />
+
         <button
           disabled={
             !formValues.username ||
