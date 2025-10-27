@@ -1,4 +1,4 @@
-const Cities = ({ handleChange, formValues }) => {
+const Cities = ({ handleChange, formValues, allop }) => {
   return (
     <select
       name="city"
@@ -6,9 +6,11 @@ const Cities = ({ handleChange, formValues }) => {
       onChange={handleChange}
       required
     >
-      <option value="" disabled>
-        Select a city…
-      </option>
+      {allop ? (
+        <option value="all">All</option>
+      ) : (
+        <option value="">Select a city…</option>
+      )}
 
       <option value="manama">Manama</option>
       <option value="juffair">Juffair</option>

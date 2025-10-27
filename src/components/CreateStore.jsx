@@ -64,12 +64,17 @@ const CreateStore = ({ setUser, user }) => {
             <CategorySelect
               handleChange={handleChange}
               formValues={formValues}
+              multiple={true}
             />
           </div>
 
           <div className="input-wrapper">
             <label htmlFor="city">City</label>
-            <Cities handleChange={handleChange} formValues={formValues} />
+            <Cities
+              handleChange={handleChange}
+              formValues={formValues}
+              allop={false}
+            />
           </div>
 
           <button disabled={!formValues.name}>Create Store</button>
