@@ -1,14 +1,14 @@
 import { useState } from "react"
 import axios from "axios"
 import { BASE_URL } from "../services/api"
-
+import Client from "../services/api"
 const NewItem = ({ items, setItems }) => {
   const initialItem = {
     name: "",
     description: "",
     stock: 0,
     price: 0,
-    storeId: "68fd17f8f260cea4ccbdde75",
+    storeId: "",
   }
   const [form, setForm] = useState(initialItem)
   const handleChange = (event) => {
@@ -16,7 +16,11 @@ const NewItem = ({ items, setItems }) => {
   }
   const handleSubmit = async (event) => {
     event.preventDefault()
-    const response = await axios.post(`${BASE_URL}/item/68fd17f8f260cea4ccbdde75`, form )
+    const response = await Client.post(
+      `${BASE_URL}/item/68fd17f8f260cea4ccbdde75`,
+      form,
+      { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
+    )
     let itemsList = [...items]
     itemsList.push(response.data)
     setItems(itemsList)
