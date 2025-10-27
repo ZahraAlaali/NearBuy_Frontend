@@ -11,6 +11,7 @@ import Home from "./components/Home"
 import ItemsList from "./components/ItemsList"
 import CreateStore from "./components/CreateStore"
 import ItemDetails from "./components/itemDetails"
+import Profile from "./components/Profile"
 
 function App() {
   let navigate = useNavigate()
@@ -54,15 +55,26 @@ function App() {
           <Route path="/" element={<Home user={user} />} />
           <Route path="/signin" element={<SignIn setUser={setUser} />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/itemsList" element={<ItemsList user={user} items={items} setItems={setItems}/>} />
-          {/* <Route path="/createStore" element={<CreateStore />} /> */}
+          <Route
+            path="/profile"
+            element={<Profile user={user} setUser={setUser} />}
+          />
+          <Route
+            path="/itemsList"
+            element={
+              <ItemsList user={user} items={items} setItems={setItems} />
+            }
+          />
           <Route
             path="/createStore"
             element={
               <CreateStore setUser={setUser} user={user} items={items} />
             }
           />
-          <Route path="/itemsList/:itemId" element={<ItemDetails items={items} user={user}/>} />
+          <Route
+            path="/itemsList/:itemId"
+            element={<ItemDetails items={items} user={user} />}
+          />
         </Routes>
       </main>
     </>
