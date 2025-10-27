@@ -1,6 +1,6 @@
 import "./App.css"
 import { useState, useEffect } from "react"
-import { Route, Routes } from "react-router"
+import { Route, Routes, useNavigate } from "react-router"
 import { CheckSession } from "./services/Auth"
 import Client from "./services/api"
 // components
@@ -13,6 +13,7 @@ import CreateStore from "./components/CreateStore"
 import ItemDetails from "./components/itemDetails"
 
 function App() {
+  let navigate = useNavigate()
   const [user, setUser] = useState(null)
 
   useEffect(() => {
@@ -29,6 +30,7 @@ function App() {
   const handleLogOut = () => {
     setUser(null)
     localStorage.clear()
+    navigate("/signin")
   }
   const [items, setItems] = useState([])
   useEffect(() => {

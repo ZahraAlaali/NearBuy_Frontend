@@ -12,6 +12,7 @@ const CreateStore = ({ setUser, user }) => {
   const [formValues, setFormValues] = useState(initialState)
 
   const handleChange = (e) => {
+    // credits for CHATGPT
     const { name, value, options, multiple } = e.target
     if (multiple) {
       const selected = Array.from(options)
