@@ -1,15 +1,17 @@
-const CategorySelect = ({ handleChange, formValues }) => {
+const CategorySelect = ({ handleChange, formValues, multiple }) => {
   return (
     <select
       name="category"
       value={formValues.category}
       onChange={handleChange}
       required
-      multiple
+      multiple={multiple ? true : false}
     >
-      <option value="" disabled>
-        Select a category…
-      </option>
+      {multiple ? (
+        <option value="">Select a category…</option>
+      ) : (
+        <option value="all">All</option>
+      )}
 
       <option value="restaurants">Restaurants</option>
       <option value="cafes">Cafés & Coffee Shops</option>

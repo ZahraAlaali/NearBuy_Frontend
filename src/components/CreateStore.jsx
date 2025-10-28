@@ -1,17 +1,21 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { createStore } from "../services/Store.js"
 import { useNavigate } from "react-router-dom"
 import CategorySelect from "./CategorySelect.jsx"
 import Cities from "./Cities.jsx"
 
-const CreateStore = ({ setUser, user }) => {
+const CreateStore = ({ setUser, user, checkToken }) => {
   let navigate = useNavigate()
 
   const initialState = { name: "", description: "", category: [], city: "" }
-
   const [formValues, setFormValues] = useState(initialState)
+  const [pictureFile, setPictureFile] = useState(null)
 
+  const handleFile = (e) => {
+    setPictureFile(e.target.files?.[0] || null)
+  }
   const handleChange = (e) => {
+    // credits for CHATGPT
     const { name, value, options, multiple } = e.target
     if (multiple) {
       const selected = Array.from(options)
@@ -25,17 +29,32 @@ const CreateStore = ({ setUser, user }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const store = await createStore(formValues)
+    const fd = new FormData(e.currentTarget)
+    const store = await createStore(fd)
     if (store) {
       setFormValues(initialState)
       setUser({ ...user, hasStore: true })
+      setPictureFile(null)
+      // checkToken()
       navigate("/")
     }
   }
+
+  useEffect(() => {
+    checkToken()
+  }, [])
   return (
     <>
       <div className="col">
         <form className="col" onSubmit={handleSubmit}>
+          <div className="input-wrapper">
+            <input
+              type="file"
+              name="picture"
+              accept="image/*"
+              onChange={handleFile}
+            />
+          </div>
           <div className="input-wrapper">
             <label htmlFor="name">Store Name</label>
             <input
@@ -63,12 +82,17 @@ const CreateStore = ({ setUser, user }) => {
             <CategorySelect
               handleChange={handleChange}
               formValues={formValues}
+              multiple={true}
             />
           </div>
 
           <div className="input-wrapper">
             <label htmlFor="city">City</label>
-            <Cities handleChange={handleChange} formValues={formValues} />
+            <Cities
+              handleChange={handleChange}
+              formValues={formValues}
+              allop={false}
+            />
           </div>
 
           <button disabled={!formValues.name}>Create Store</button>
