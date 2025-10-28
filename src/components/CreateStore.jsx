@@ -30,16 +30,7 @@ const CreateStore = ({ setUser, user }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    // Credits CHATGPT
-    const fd = new FormData()
-    for (const [k, v] of Object.entries(formValues)) {
-      if (Array.isArray(v)) {
-        v.forEach((item) => fd.append(`${k}[]`, item))
-      } else {
-        fd.append(k, v ?? "")
-      }
-    }
-    if (pictureFile) fd.append("picture", pictureFile)
+    const fd = new FormData(e.currentTarget)
     const store = await createStore(fd)
     if (store) {
       setFormValues(initialState)

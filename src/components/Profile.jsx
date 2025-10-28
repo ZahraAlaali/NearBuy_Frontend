@@ -42,12 +42,9 @@ const Profile = ({ user, setUser }) => {
   const handleSubmitUpdate = async (e) => {
     e.preventDefault()
 
-    const fd = new FormData()
-    Object.entries(formValues).forEach(([k, v]) => fd.append(k, v))
-    if (pictureFile) fd.append("picture", pictureFile)
+    const fd = new FormData(e.currentTarget)
     const response = await updateProfile(fd)
     if (response) {
-      console.log(response)
       initialState = {
         username: formValues.username,
         email: formValues.email,
