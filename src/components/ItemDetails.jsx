@@ -1,8 +1,11 @@
-import { useParams } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
-const ItemDetails = ({ items,user }) => {
-  let { itemId } = useParams()
+import Client from "../services/api"
+const ItemDetails = ({ items, user }) => {
+  const navigate = useNavigate()
+  // get selected item details
+  let { itemId, storeId } = useParams()
   const [item, setItem] = useState("")
   useEffect(() => {
     let selectedItem = items.find((item) => {
@@ -10,23 +13,61 @@ const ItemDetails = ({ items,user }) => {
     })
     setItem(selectedItem)
   }, [items, itemId])
-  const [quantity,setQuantity]=useState(0)
+
+  // handle quantity
+  const [quantity, setQuantity] = useState(0)
   const handlePlus = (event) => {
     event.preventDefault()
-    setQuantity((prev)=>prev+1)
+    setQuantity((prev) => prev + 1)
   }
   const handleMinus = (event) => {
     event.preventDefault()
-    if(quantity>0){
-      setQuantity((prev)=>prev-1)
-
+    if (quantity > 0) {
+      setQuantity((prev) => prev - 1)
     }
     console.log(quantity)
   }
-  const handleChange=(event)=>{
+  const handleQuantityChange = (event) => {
     // max from chatGpt
     setQuantity(Math.max(0, Number(event.target.value)))
   }
+
+  // handle comment
+  const [comment, setComment] = useState("")
+  const handleCommentChange = (event) => {
+    event.preventDefault()
+    setComment(event.target.value)
+  }
+
+  // checkout
+  // const [newItem, setNewItems] = useState(initialState)
+  const checkout = async (event, destination) => {
+    event.preventDefault()
+    let initialState = {
+      comment,
+      items: [
+        {
+          itemId: item._id,
+          itemName: item.name,
+          quantity: quantity,
+          itemPrice: item.price,
+        },
+      ],
+      price: quantity * item.price,
+      customerId: user.id,
+      storeId: storeId,
+      status: "pending",
+    }
+    // console.log("before adding" + newItem)
+    // setNewItems({ ...newItem, [event.target.name]: event.target.value })
+    let response = await Client.post(`order/${storeId}/new`, initialState, {
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    })
+    setQuantity(0)
+    setComment("")
+    if (destination) navigate(destination)
+  }
+
   return item ? (
     <div>
       <h1>{item.name}</h1>
@@ -36,15 +77,24 @@ const ItemDetails = ({ items,user }) => {
 
       {user.role == "customer" && (
         <div>
+          <label htmlFor="comment">Add comment</label>
+          <input type="text" name="comment" onChange={handleCommentChange} />
+          <br />
           <button onClick={handleMinus}>-</button>
-          <input type="number" min="0" onChange={handleChange} value={quantity}/>
+          <input
+            type="number"
+            min="0"
+            onChange={handleQuantityChange}
+            value={quantity}
+          />
           <button onClick={handlePlus}>+</button>
           <br />
-          <button>checkout</button>
+          <button onClick={(e) => checkout(e, "/checkout")}>checkout</button>
           <br />
-          <button>add other items</button>
+          <button onClick={(e) => checkout(e, "/itemsList")}>
+            add other items
+          </button>
           <br />
-          <Link to="/itemsList"><button>back</button></Link>
         </div>
       )}
       {user.role == "business" && (
@@ -53,6 +103,9 @@ const ItemDetails = ({ items,user }) => {
           <button>delete</button>
         </div>
       )}
+      <Link to="/itemsList">
+        <button>back</button>
+      </Link>
     </div>
   ) : null
 }
