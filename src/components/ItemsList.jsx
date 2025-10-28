@@ -15,6 +15,7 @@ const ItemsList = ({ user, items, setItems }) => {
           </div>
         </Link>
       ))}
+      <Link to="/"><button>back</button></Link>
       {user.role == "business" && <NewItem user={user} items={items} setItems={setItems} />}
     </div>
   )
