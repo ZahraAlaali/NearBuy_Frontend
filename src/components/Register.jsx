@@ -27,10 +27,7 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    const fd = new FormData()
-    Object.entries(formValues).forEach(([k, v]) => fd.append(k, v))
-    if (pictureFile) fd.append("picture", pictureFile)
-
+    const fd = new FormData(e.currentTarget)
     let user = await RegisterUser(fd)
     if (user) {
       setFormValues(initialState)
