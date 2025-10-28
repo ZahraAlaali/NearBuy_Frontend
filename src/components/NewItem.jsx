@@ -2,7 +2,7 @@ import { useState } from "react"
 import axios from "axios"
 import { BASE_URL } from "../services/api"
 import Client from "../services/api"
-const NewItem = ({ items, setItems, user }) => {
+const NewItem = ({ items, setItems, user, storeId }) => {
   const initialItem = {
     name: "",
     description: "",
@@ -24,13 +24,14 @@ const NewItem = ({ items, setItems, user }) => {
   const handleSubmit = async (event) => {
     event.preventDefault()
     const fd = new FormData(event.currentTarget)
-    const response = await Client.post(`/item/${user.storeId}`, fd, {
+    const response = await Client.post(`/item/${storeId}`, fd, {
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
     })
     let itemsList = [...items]
     itemsList.push(response.data)
     setItems(itemsList)
     setForm(initialItem)
+    setPictureFile(null)
   }
   return (
     <div>

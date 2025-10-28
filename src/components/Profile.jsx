@@ -3,7 +3,7 @@ import { useState } from "react"
 import { updateProfile } from "../services/User.js"
 import { UpdatePassword } from "../services/Auth.js"
 
-const Profile = ({ user, setUser }) => {
+const Profile = ({ user, setUser, checkToken }) => {
   let initialState = {
     username: user?.username,
     email: user?.email,
@@ -32,6 +32,7 @@ const Profile = ({ user, setUser }) => {
 
   const handleSubmitPassword = async (e) => {
     e.preventDefault()
+    checkToken()
 
     let pass = await UpdatePassword(passwords, user.id)
     if (pass) {
@@ -41,7 +42,7 @@ const Profile = ({ user, setUser }) => {
 
   const handleSubmitUpdate = async (e) => {
     e.preventDefault()
-
+    checkToken()
     const fd = new FormData(e.currentTarget)
     const response = await updateProfile(fd)
     if (response) {
