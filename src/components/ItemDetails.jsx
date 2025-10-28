@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import Client from "../services/api"
 const ItemDetails = ({ items, user }) => {
-  const navigate=useNavigate()
+  const navigate = useNavigate()
   // get selected item details
   let { itemId, storeId } = useParams()
   const [item, setItem] = useState("")
@@ -91,11 +91,10 @@ const ItemDetails = ({ items, user }) => {
           <br />
           <button onClick={(e) => checkout(e, "/checkout")}>checkout</button>
           <br />
-          <button onClick={(e) => checkout(e, "/itemsList")}>add other items</button>
+          <button onClick={(e) => checkout(e, "/itemsList")}>
+            add other items
+          </button>
           <br />
-          <Link to="/itemsList">
-            <button>back</button>
-          </Link>
         </div>
       )}
       {user.role == "business" && (
@@ -104,6 +103,9 @@ const ItemDetails = ({ items, user }) => {
           <button>delete</button>
         </div>
       )}
+      <Link to="/itemsList">
+        <button>back</button>
+      </Link>
     </div>
   ) : null
 }
