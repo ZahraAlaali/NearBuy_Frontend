@@ -1,14 +1,13 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { createStore } from "../services/Store.js"
 import { useNavigate } from "react-router-dom"
 import CategorySelect from "./CategorySelect.jsx"
 import Cities from "./Cities.jsx"
 
-const CreateStore = ({ setUser, user }) => {
+const CreateStore = ({ setUser, user, checkToken }) => {
   let navigate = useNavigate()
 
   const initialState = { name: "", description: "", category: [], city: "" }
-
   const [formValues, setFormValues] = useState(initialState)
   const [pictureFile, setPictureFile] = useState(null)
 
@@ -36,9 +35,14 @@ const CreateStore = ({ setUser, user }) => {
       setFormValues(initialState)
       setUser({ ...user, hasStore: true })
       setPictureFile(null)
+      // checkToken()
       navigate("/")
     }
   }
+
+  useEffect(() => {
+    checkToken()
+  }, [])
   return (
     <>
       <div className="col">

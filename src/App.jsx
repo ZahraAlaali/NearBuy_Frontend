@@ -17,16 +17,16 @@ function App() {
   let navigate = useNavigate()
   const [user, setUser] = useState(null)
 
+  const checkToken = async () => {
+    const user = await CheckSession()
+    setUser(user)
+  }
   useEffect(() => {
-    const checkToken = async () => {
-      const userData = await CheckSession()
-      setUser(userData)
-    }
     const token = localStorage.getItem("token")
     if (token) {
       checkToken()
     }
-  }, [user])
+  }, [])
 
   const handleLogOut = () => {
     setUser(null)
@@ -57,7 +57,9 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route
             path="/profile"
-            element={<Profile user={user} setUser={setUser} />}
+            element={
+              <Profile user={user} setUser={setUser} checkToken={checkToken} />
+            }
           />
           <Route
             path="/itemsList"
@@ -68,7 +70,12 @@ function App() {
           <Route
             path="/createStore"
             element={
-              <CreateStore setUser={setUser} user={user} items={items} />
+              <CreateStore
+                setUser={setUser}
+                user={user}
+                items={items}
+                checkToken={checkToken}
+              />
             }
           />
           <Route

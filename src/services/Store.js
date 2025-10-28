@@ -13,9 +13,7 @@ export const createStore = async (data) => {
 
 export const allStores = async () => {
   try {
-    const res = await Client.get("/store", {
-      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-    })
+    const res = await Client.get("/store")
     return res.data
   } catch (error) {
     throw error
