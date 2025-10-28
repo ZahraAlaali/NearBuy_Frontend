@@ -1,6 +1,7 @@
 import { BASE_URL } from "../services/api"
 import { useState } from "react"
 import { updateProfile } from "../services/User.js"
+import { UpdatePassword } from "../services/Auth.js"
 
 const Profile = ({ user, setUser }) => {
   let initialState = {
@@ -8,19 +9,37 @@ const Profile = ({ user, setUser }) => {
     email: user?.email,
     role: user?.role,
   }
+  const initP = {
+    oldPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+  }
 
   const [formValues, setFormValues] = useState(initialState)
   const [pictureFile, setPictureFile] = useState(user.picture)
+  const [passwords, setPassword] = useState(initP)
 
-  const handleChange = (e) => {
+  const handleChangeUpdate = (e) => {
     setFormValues({ ...formValues, [e.target.name]: e.target.value })
+  }
+  const handleChangePassword = (e) => {
+    setPassword({ ...passwords, [e.target.name]: e.target.value })
   }
 
   const handleFile = (e) => {
     setPictureFile(e.target.files?.[0] || null)
   }
 
-  const handleSubmit = async (e) => {
+  const handleSubmitPassword = async (e) => {
+    e.preventDefault()
+
+    let pass = await UpdatePassword(passwords, user.id)
+    if (pass) {
+      setPassword(initP)
+    }
+  }
+
+  const handleSubmitUpdate = async (e) => {
     e.preventDefault()
 
     const fd = new FormData()
@@ -39,8 +58,8 @@ const Profile = ({ user, setUser }) => {
   }
   return (
     <>
-      <div className="col register">
-        <form onSubmit={handleSubmit}>
+      <div className="col">
+        <form onSubmit={handleSubmitUpdate}>
           <div className="input-wrapper">
             <img
               width="100px"
@@ -64,7 +83,7 @@ const Profile = ({ user, setUser }) => {
               name="username"
               type="text"
               placeholder="Username"
-              onChange={handleChange}
+              onChange={handleChangeUpdate}
               value={formValues.username}
               required
               autoComplete="username"
@@ -77,7 +96,7 @@ const Profile = ({ user, setUser }) => {
               name="email"
               type="email"
               placeholder="example@example.com"
-              onChange={handleChange}
+              onChange={handleChangeUpdate}
               value={formValues.email}
               required
               autoComplete="email"
@@ -86,6 +105,56 @@ const Profile = ({ user, setUser }) => {
           <br />
           <button disabled={!formValues.username || !formValues.email}>
             Update Profile
+          </button>
+        </form>
+      </div>
+
+      <div className="col">
+        <form onSubmit={handleSubmitPassword}>
+          <div className="input-wrapper">
+            <label htmlFor="oldPassword">Old Password</label>
+            <input
+              name="oldPassword"
+              type="password"
+              placeholder="oldPassword"
+              onChange={handleChangePassword}
+              value={passwords.oldPassword}
+              required
+            />
+          </div>
+          <br />
+          <div className="input-wrapper">
+            <label htmlFor="newPassword">New Password</label>
+            <input
+              name="newPassword"
+              type="password"
+              placeholder="newPassword"
+              onChange={handleChangePassword}
+              value={passwords.newPassword}
+              required
+            />
+          </div>
+          <br />
+          <div className="input-wrapper">
+            <label htmlFor="confirmPassword">Confirm Password</label>
+            <input
+              name="confirmPassword"
+              type="password"
+              placeholder="confirmPassword"
+              onChange={handleChangePassword}
+              value={passwords.confirmPassword}
+              required
+            />
+          </div>
+          <br />
+          <button
+            disabled={
+              !passwords.oldPassword ||
+              !passwords.newPassword ||
+              !passwords.confirmPassword
+            }
+          >
+            Update Password
           </button>
         </form>
       </div>
