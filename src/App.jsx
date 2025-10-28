@@ -24,7 +24,7 @@ function App() {
     }
     const token = localStorage.getItem("token")
     if (token) {
-      checkToken
+      checkToken()
     }
   }, [user])
 
