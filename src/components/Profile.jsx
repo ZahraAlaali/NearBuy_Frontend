@@ -1,8 +1,9 @@
 import { BASE_URL } from "../services/api"
 import { useState } from "react"
+import { updateProfile } from "../services/User.js"
 
 const Profile = ({ user, setUser }) => {
-  const initialState = {
+  let initialState = {
     username: user?.username,
     email: user?.email,
     role: user?.role,
@@ -25,6 +26,16 @@ const Profile = ({ user, setUser }) => {
     const fd = new FormData()
     Object.entries(formValues).forEach(([k, v]) => fd.append(k, v))
     if (pictureFile) fd.append("picture", pictureFile)
+    const response = await updateProfile(fd)
+    if (response) {
+      console.log(response)
+      initialState = {
+        username: formValues.username,
+        email: formValues.email,
+      }
+      setFormValues(initialState)
+      setUser(response)
+    }
   }
   return (
     <>
