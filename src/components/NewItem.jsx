@@ -17,7 +17,7 @@ const NewItem = ({ items, setItems }) => {
   const handleSubmit = async (event) => {
     event.preventDefault()
     const response = await Client.post(
-      `item/:itemId`,
+      `${BASE_URL}/item/68fd17f8f260cea4ccbdde75`,
       form,
       { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
     )

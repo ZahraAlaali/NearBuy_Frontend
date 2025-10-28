@@ -2,7 +2,8 @@ import { useParams, useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import Client from "../services/api"
-const ItemDetails = ({ items, user }) => {
+import { BASE_URL } from "../services/api"
+const ItemDetails = ({ items, user,setItems }) => {
   const navigate = useNavigate()
   // get selected item details
   let { itemId, storeId } = useParams()
@@ -68,6 +69,15 @@ const ItemDetails = ({ items, user }) => {
     if (destination) navigate(destination)
   }
 
+
+  const handleDelete = async (event) => {
+    event.preventDefault()
+    const response=await Client.delete(`${BASE_URL}/item/${item._id}`,{
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    })
+    setItems
+    navigate("/itemsList")
+  }
   return item ? (
     <div>
       <h1>{item.name}</h1>
@@ -100,7 +110,7 @@ const ItemDetails = ({ items, user }) => {
       {user.role == "business" && (
         <div>
           <button>edit</button>
-          <button>delete</button>
+          <button onClick={handleDelete}>delete</button>
         </div>
       )}
       <Link to="/itemsList">

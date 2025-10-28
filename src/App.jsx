@@ -60,7 +60,7 @@ function App() {
               <CreateStore setUser={setUser} user={user} items={items} />
             }
           />
-          <Route path="/itemsList/:itemId" element={<ItemDetails items={items} user={user}/>} />
+          <Route path="/itemsList/:itemId" element={<ItemDetails items={items} user={user} setItems={setItems}/>} />
         </Routes>
       </main>
     </>
