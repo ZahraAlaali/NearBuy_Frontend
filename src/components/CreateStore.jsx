@@ -10,7 +10,11 @@ const CreateStore = ({ setUser, user }) => {
   const initialState = { name: "", description: "", category: [], city: "" }
 
   const [formValues, setFormValues] = useState(initialState)
+  const [pictureFile, setPictureFile] = useState(null)
 
+  const handleFile = (e) => {
+    setPictureFile(e.target.files?.[0] || null)
+  }
   const handleChange = (e) => {
     // credits for CHATGPT
     const { name, value, options, multiple } = e.target
@@ -26,10 +30,21 @@ const CreateStore = ({ setUser, user }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const store = await createStore(formValues)
+    // Credits CHATGPT
+    const fd = new FormData()
+    for (const [k, v] of Object.entries(formValues)) {
+      if (Array.isArray(v)) {
+        v.forEach((item) => fd.append(`${k}[]`, item))
+      } else {
+        fd.append(k, v ?? "")
+      }
+    }
+    if (pictureFile) fd.append("picture", pictureFile)
+    const store = await createStore(fd)
     if (store) {
       setFormValues(initialState)
       setUser({ ...user, hasStore: true })
+      setPictureFile(null)
       navigate("/")
     }
   }
@@ -37,6 +52,14 @@ const CreateStore = ({ setUser, user }) => {
     <>
       <div className="col">
         <form className="col" onSubmit={handleSubmit}>
+          <div className="input-wrapper">
+            <input
+              type="file"
+              name="picture"
+              accept="image/*"
+              onChange={handleFile}
+            />
+          </div>
           <div className="input-wrapper">
             <label htmlFor="name">Store Name</label>
             <input

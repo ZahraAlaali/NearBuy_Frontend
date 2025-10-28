@@ -116,13 +116,14 @@ const Register = () => {
           />
           Business
         </div>
-
-        <input
-          type="file"
-          name="picture"
-          accept="image/*"
-          onChange={handleFile}
-        />
+        <div className="input-wrapper">
+          <input
+            type="file"
+            name="picture"
+            accept="image/*"
+            onChange={handleFile}
+          />
+        </div>
 
         <button
           disabled={
