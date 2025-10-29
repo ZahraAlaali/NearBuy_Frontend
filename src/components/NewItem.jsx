@@ -2,7 +2,7 @@ import { useState } from "react"
 import axios from "axios"
 import { BASE_URL } from "../services/api"
 import Client from "../services/api"
-const NewItem = ({ items, setItems, user }) => {
+const NewItem = ({ items, setItems }) => {
   const initialItem = {
     name: "",
     description: "",
@@ -11,21 +11,14 @@ const NewItem = ({ items, setItems, user }) => {
     storeId: "",
   }
   const [form, setForm] = useState(initialItem)
-  const [pictureFile, setPictureFile] = useState(null)
-
   const handleChange = (event) => {
     setForm({ ...form, [event.target.name]: event.target.value })
   }
-
-  const handleFile = (e) => {
-    setPictureFile(e.target.files?.[0] || null)
-  }
-
   const handleSubmit = async (event) => {
     event.preventDefault()
     const response = await Client.post(
       `${BASE_URL}/item/68fd17f8f260cea4ccbdde75`,
-      form,
+      form
     )
     let itemsList = [...items]
     itemsList.push(response.data)
@@ -58,8 +51,8 @@ const NewItem = ({ items, setItems, user }) => {
         <input
           name="image"
           type="file"
-          onChange={handleFile}
-          value={pictureFile?.image}
+          onChange={handleChange}
+          value={form.image}
         />
         <br />
         <label htmlFor="price">Enter item price: </label>
