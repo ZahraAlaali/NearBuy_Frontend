@@ -11,22 +11,15 @@ const NewItem = ({ items, setItems, user, storeId }) => {
     storeId: "",
   }
   const [form, setForm] = useState(initialItem)
-  const [pictureFile, setPictureFile] = useState(null)
-
   const handleChange = (event) => {
     setForm({ ...form, [event.target.name]: event.target.value })
   }
-
-  const handleFile = (e) => {
-    setPictureFile(e.target.files?.[0] || null)
-  }
-
   const handleSubmit = async (event) => {
     event.preventDefault()
-    const fd = new FormData(event.currentTarget)
-    const response = await Client.post(`/item/${storeId}`, fd, {
-      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-    })
+    const response = await Client.post(
+      `${BASE_URL}/item/68fd17f8f260cea4ccbdde75`,
+      form
+    )
     let itemsList = [...items]
     itemsList.push(response.data)
     setItems(itemsList)
@@ -59,8 +52,8 @@ const NewItem = ({ items, setItems, user, storeId }) => {
         <input
           name="image"
           type="file"
-          onChange={handleFile}
-          value={pictureFile?.image}
+          onChange={handleChange}
+          value={form.image}
         />
         <br />
         <label htmlFor="price">Enter item price: </label>

@@ -15,48 +15,51 @@ import Profile from "./components/Profile"
 
 function App() {
   let navigate = useNavigate()
+
   const [user, setUser] = useState(null)
+  const [items, setItems] = useState([])
 
   const checkToken = async () => {
     const user = await CheckSession()
     setUser(user)
   }
-  useEffect(() => {
-    const token = localStorage.getItem("token")
-    if (token) {
-      checkToken()
-    }
-  }, [])
 
   const handleLogOut = () => {
     setUser(null)
+    setItems([])
     localStorage.clear()
     navigate("/signin")
   }
-  const [items, setItems] = useState([])
+
   useEffect(() => {
+    const token = localStorage.getItem("token")
     const getItems = async () => {
       try {
-        let response = await Client.get(`/item`, {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        })
+        let response = await Client.get(`/item`)
         setItems(response.data)
       } catch (err) {
         console.log(err)
       }
     }
-    getItems()
+    if (token) {
+      checkToken()
+      getItems()
+    }
   }, [])
+
   return (
     <>
       <Nav user={user} handleLogOut={handleLogOut} />
       <main>
         <Routes>
+
           <Route
             path="/"
             element={<Home user={user} items={items} setItems={setItems} />}
           />
-          <Route path="/signin" element={<SignIn setUser={setUser} />} />
+
+          <Route path="/signin" element={<SignIn setUser={setUser} setItems={setItems}/>} />
+
           <Route path="/register" element={<Register />} />
           <Route
             path="/profile"
@@ -79,10 +82,7 @@ function App() {
               <CreateStore setUser={setUser} user={user} items={items} />
             }
           />
-          <Route
-            path="/itemsList/:itemId"
-            element={<ItemDetails items={items} user={user} />}
-          />
+          <Route path="/itemsList/:itemId" element={<ItemDetails items={items} user={user} setItems={setItems}/>} />
         </Routes>
       </main>
     </>
