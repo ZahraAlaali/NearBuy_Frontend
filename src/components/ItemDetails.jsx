@@ -2,7 +2,8 @@ import { useParams, useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import Client from "../services/api"
-const ItemDetails = ({ items, user }) => {
+import { BASE_URL } from "../services/api"
+const ItemDetails = ({ items, user,setItems }) => {
   const navigate = useNavigate()
   // get selected item details
   let { itemId, storeId } = useParams()
@@ -60,14 +61,19 @@ const ItemDetails = ({ items, user }) => {
     }
     // console.log("before adding" + newItem)
     // setNewItems({ ...newItem, [event.target.name]: event.target.value })
-    let response = await Client.post(`order/${storeId}/new`, initialState, {
-      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-    })
+    let response = await Client.post(`order/${storeId}/new`, initialState,)
     setQuantity(0)
     setComment("")
     if (destination) navigate(destination)
   }
 
+
+  const handleDelete = async (event) => {
+    event.preventDefault()
+    const response=await Client.delete(`${BASE_URL}/item/${item._id}`,)
+    setItems
+    navigate("/itemsList")
+  }
   return item ? (
     <div>
       <h1>{item.name}</h1>
@@ -100,7 +106,7 @@ const ItemDetails = ({ items, user }) => {
       {user.role == "business" && (
         <div>
           <button>edit</button>
-          <button>delete</button>
+          <button onClick={handleDelete}>delete</button>
         </div>
       )}
       <Link to="/itemsList">

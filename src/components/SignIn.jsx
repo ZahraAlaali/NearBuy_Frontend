@@ -1,8 +1,9 @@
 import { useState } from "react"
 import { SignInUser } from "../services/Auth"
 import { useNavigate } from "react-router-dom"
+import Client from "../services/api"
 
-const SignIn = ({ setUser }) => {
+const SignIn = ({ setUser,setItems }) => {
   let navigate = useNavigate()
   const initialState = { email: "", password: "" }
 
@@ -17,6 +18,8 @@ const SignIn = ({ setUser }) => {
     const userData = await SignInUser(formValues)
     setFormValues(initialState)
     setUser(userData)
+    let response = await Client.get(`/item`)
+    setItems(response.data)
     navigate("/")
   }
 

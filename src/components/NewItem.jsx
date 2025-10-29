@@ -23,10 +23,10 @@ const NewItem = ({ items, setItems, user }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault()
-    const fd = new FormData(event.currentTarget)
-    const response = await Client.post(`/item/${user.storeId}`, fd, {
-      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-    })
+    const response = await Client.post(
+      `${BASE_URL}/item/68fd17f8f260cea4ccbdde75`,
+      form,
+    )
     let itemsList = [...items]
     itemsList.push(response.data)
     setItems(itemsList)
