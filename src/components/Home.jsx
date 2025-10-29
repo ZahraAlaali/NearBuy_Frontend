@@ -147,6 +147,27 @@ const Home = ({
     }
     return homePage
   } else {
+    return (
+      <div className="home-container">
+        <div className="filter-section">
+          <div className="auth-box">
+            <p className="auth-text">Please LOGIN</p>
+            <Link to={`/signin`}>
+              <button className="back-btn">Sign In</button>
+            </Link>
+
+            <p className="auth-text" style={{ marginTop: "15px" }}>
+              OR IF YOU DON'T HAVE AN ACCOUNT
+            </p>
+
+            <p className="auth-text">Please REGISTER</p>
+            <Link to={`/register`}>
+              <button className="back-btn">Register</button>
+            </Link>
+          </div>
+        </div>
+      </div>
+    )
   }
 }
 

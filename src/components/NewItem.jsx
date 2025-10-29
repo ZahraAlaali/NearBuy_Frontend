@@ -77,10 +77,9 @@ const NewItem = ({ items, setItems, storeId }) => {
           value={form.price}
           className="form-input"
         />
-
-        <button type="submit" className="submit-button">
-          Add Item
-        </button>
+        <div className="action-buttons">
+          <button className="blue-btn">Add Item</button>
+        </div>
       </form>
     </div>
   )

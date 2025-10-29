@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { BASE_URL } from "../services/api"
 import { editItem } from "../services/Item"
-import { useNavigate, useParams } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 
 const EditItem = ({ items, setItems }) => {
   let navigate = useNavigate()
@@ -108,18 +108,13 @@ const EditItem = ({ items, setItems }) => {
             className="form-input"
           />
         </div>
-
-        <div className="form-buttons">
-          <input type="submit" className="btn" value="Update Item" />
+        <div className="action-buttons">
+          <button className="blue-btn">Update Item</button>
         </div>
       </form>
-      <button
-        onClick={() => {
-          navigate(`/itemsDetails/${itemId}/${filter.storeId}`)
-        }}
-      >
-        Back
-      </button>
+      <Link to={`/itemsDetails/${itemId}/${filter.storeId}`}>
+        <button className="back-btn">Back</button>
+      </Link>
     </div>
   )
 }
