@@ -14,20 +14,23 @@ const Profile = ({ user, setUser }) => {
     newPassword: "",
     confirmPassword: "",
   }
+
+  const [formValues, setFormValues] = useState(initialState)
+  const [pictureFile, setPictureFile] = useState(user?.picture)
+  const [passwords, setPassword] = useState(initP)
+
   useEffect(() => {
     setFormValues({
       username: user?.username || "",
       email: user?.email || "",
       role: user?.role || "",
     })
-  }, [])
-  const [formValues, setFormValues] = useState(initialState)
-  const [pictureFile, setPictureFile] = useState(user?.picture)
-  const [passwords, setPassword] = useState(initP)
+  }, [user])
 
   const handleChangeUpdate = (e) => {
     setFormValues({ ...formValues, [e.target.name]: e.target.value })
   }
+
   const handleChangePassword = (e) => {
     setPassword({ ...passwords, [e.target.name]: e.target.value })
   }
@@ -38,11 +41,8 @@ const Profile = ({ user, setUser }) => {
 
   const handleSubmitPassword = async (e) => {
     e.preventDefault()
-
     let pass = await UpdatePassword(passwords, user.id)
-    if (pass) {
-      setPassword(initP)
-    }
+    if (pass) setPassword(initP)
   }
 
   const handleSubmitUpdate = async (e) => {
@@ -50,9 +50,8 @@ const Profile = ({ user, setUser }) => {
     const fd = new FormData()
     fd.append("username", formValues.username)
     fd.append("email", formValues.email)
-    if (pictureFile) {
-      fd.append("picture", pictureFile)
-    }
+    if (pictureFile) fd.append("picture", pictureFile)
+
     const userP = await updateProfile(fd)
     setUser((prev) => ({
       ...prev,
@@ -62,13 +61,14 @@ const Profile = ({ user, setUser }) => {
     }))
     setPictureFile(userP.picture ? userP.picture : null)
   }
+
   return (
-    <>
-      <div className="col">
-        <form onSubmit={handleSubmitUpdate}>
-          <div className="input-wrapper">
+    <div className="profile-page">
+      <div className="profile-section">
+        <form className="profile-form" onSubmit={handleSubmitUpdate}>
+          <div className="profile-image-container">
             <img
-              width="100px"
+              className="profile-image"
               src={
                 user?.picture
                   ? `${BASE_URL}${user.picture}`
@@ -76,84 +76,93 @@ const Profile = ({ user, setUser }) => {
               }
               alt="profile image"
             />
-            <br />
             <input
+              className="file-input"
               type="file"
               name="picture"
               accept="image/*"
               onChange={handleFile}
             />
-            <br />
+          </div>
+
+          <div className="form-group">
             <label htmlFor="username">Username</label>
             <input
+              className="form-input"
               name="username"
               type="text"
               placeholder="Username"
               onChange={handleChangeUpdate}
               value={formValues.username}
               required
-              autoComplete="username"
             />
           </div>
-          <br />
-          <div className="input-wrapper">
+
+          <div className="form-group">
             <label htmlFor="email">Email</label>
             <input
+              className="form-input"
               name="email"
               type="email"
               placeholder="example@example.com"
               onChange={handleChangeUpdate}
               value={formValues.email}
               required
-              autoComplete="email"
             />
           </div>
-          <br />
-          <button disabled={!formValues.username || !formValues.email}>
+
+          <button
+            className="btn btn-primary"
+            disabled={!formValues.username || !formValues.email}
+          >
             Update Profile
           </button>
         </form>
       </div>
 
-      <div className="col">
-        <form onSubmit={handleSubmitPassword}>
-          <div className="input-wrapper">
+      <div className="profile-section">
+        <form className="profile-form" onSubmit={handleSubmitPassword}>
+          <div className="form-group">
             <label htmlFor="oldPassword">Old Password</label>
             <input
+              className="form-input"
               name="oldPassword"
               type="password"
-              placeholder="oldPassword"
+              placeholder="Old Password"
               onChange={handleChangePassword}
               value={passwords.oldPassword}
               required
             />
           </div>
-          <br />
-          <div className="input-wrapper">
+
+          <div className="form-group">
             <label htmlFor="newPassword">New Password</label>
             <input
+              className="form-input"
               name="newPassword"
               type="password"
-              placeholder="newPassword"
+              placeholder="New Password"
               onChange={handleChangePassword}
               value={passwords.newPassword}
               required
             />
           </div>
-          <br />
-          <div className="input-wrapper">
+
+          <div className="form-group">
             <label htmlFor="confirmPassword">Confirm Password</label>
             <input
+              className="form-input"
               name="confirmPassword"
               type="password"
-              placeholder="confirmPassword"
+              placeholder="Confirm Password"
               onChange={handleChangePassword}
               value={passwords.confirmPassword}
               required
             />
           </div>
-          <br />
+
           <button
+            className="btn btn-primary"
             disabled={
               !passwords.oldPassword ||
               !passwords.newPassword ||
@@ -164,7 +173,8 @@ const Profile = ({ user, setUser }) => {
           </button>
         </form>
       </div>
-    </>
+    </div>
   )
 }
+
 export default Profile

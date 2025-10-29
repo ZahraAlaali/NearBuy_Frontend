@@ -1,7 +1,6 @@
 import { useState } from "react"
 import { SignInUser } from "../services/Auth"
 import { useNavigate } from "react-router-dom"
-import Client from "../services/api"
 
 const SignIn = ({ setUser, setItems, checkToken, getItems }) => {
   let navigate = useNavigate()
@@ -23,8 +22,10 @@ const SignIn = ({ setUser, setItems, checkToken, getItems }) => {
   }
 
   return (
-    <div className="col signin">
-      <form className="col" onSubmit={handleSubmit}>
+    <div className="auth-page">
+      <form className="auth-form" onSubmit={handleSubmit}>
+        <h2 className="auth-title">Welcome Back</h2>
+
         <div className="input-wrapper">
           <label htmlFor="email">Email or Username</label>
           <input
@@ -36,19 +37,24 @@ const SignIn = ({ setUser, setItems, checkToken, getItems }) => {
             required
           />
         </div>
+
         <div className="input-wrapper">
           <label htmlFor="password">Password</label>
           <input
             name="password"
             type="password"
-            placeholder="password"
+            placeholder="Password"
             onChange={handleChange}
             value={formValues.password}
             required
             autoComplete="off"
           />
         </div>
-        <button disabled={!formValues.email || !formValues.password}>
+
+        <button
+          className="btn"
+          disabled={!formValues.email || !formValues.password}
+        >
           Sign In
         </button>
       </form>

@@ -2,15 +2,15 @@ import { useLocation, Link } from "react-router-dom"
 import { useState } from "react"
 import Client from "../services/api"
 import { BASE_URL } from "../services/api"
+import "../App.css"
+
 const OrderDetails = ({ user }) => {
   const { state } = useLocation()
   const [status, setStatus] = useState(state.status)
 
   const checkout = async (event) => {
     event.preventDefault()
-
     let newStatus = status
-
     if (status === "pending") newStatus = "received"
     else if (status === "received") newStatus = "ready"
 
@@ -19,31 +19,34 @@ const OrderDetails = ({ user }) => {
       status: newStatus,
     })
   }
+
   return (
-    <div>
-      orderDetails
+    <div className="order-details-container">
       <h1>{state.storeName}</h1>
-      <h2>order status: {status}</h2>
-      <h2>items: </h2>
-      {state.items.map((item) => {
-        return (
-          <div>
-            <ul>
-              <li>{item.itemName}</li>
-              <li>item price: {item.itemPrice}</li>
-              <li>quantity: {item.quantity}</li>
-            </ul>
-          </div>
-        )
-      })}
-      <h2>order price: {state.price}</h2>
-      {user.role == "customer" && (
-        <button onClick={checkout} disabled={status !== "pending"}>
+      <h2>Order Status: {status}</h2>
+      <h3>Items:</h3>
+      {state.items.map((item, index) => (
+        <div key={index} className="order-card">
+          <ul>
+            <li><strong>{item.itemName}</strong></li>
+            <li>Price: {item.itemPrice} BD</li>
+            <li>Quantity: {item.quantity}</li>
+          </ul>
+        </div>
+      ))}
+      <h3 className="order-price">Total Price: {state.price} BD</h3>
+
+      {user.role === "customer" && (
+        <button
+          onClick={checkout}
+          className={`action-btn checkout-btn ${status !== "pending" ? "disabled-btn" : ""}`}
+          disabled={status !== "pending"}
+        >
           Checkout
         </button>
       )}
       <Link to={`/itemsList/${state.storeId}`}>
-        <button>back</button>
+        <button className="action-btn back-btn">Back</button>
       </Link>
     </div>
   )

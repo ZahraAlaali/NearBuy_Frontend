@@ -14,8 +14,8 @@ const CreateStore = ({ setUser, user, checkToken, getItems }) => {
   const handleFile = (e) => {
     setPictureFile(e.target.files?.[0] || null)
   }
+
   const handleChange = (e) => {
-    // credits for CHATGPT
     const { name, value, options, multiple } = e.target
     if (multiple) {
       const selected = Array.from(options)
@@ -46,69 +46,80 @@ const CreateStore = ({ setUser, user, checkToken, getItems }) => {
   }, [])
 
   return (
-    <>
-      <div className="col">
-        <form className="col" onSubmit={handleSubmit}>
-          <div className="input-wrapper">
-            <input
-              type="file"
-              name="picture"
-              accept="image/*"
-              onChange={handleFile}
-            />
-          </div>
-          <div className="input-wrapper">
-            <label htmlFor="name">Store Name</label>
-            <input
-              name="name"
-              type="text"
-              placeholder=""
-              onChange={handleChange}
-              value={formValues.name}
-              required
-            />
-          </div>
-          <div className="input-wrapper">
-            <label htmlFor="description">Description</label>
-            <input
-              name="description"
-              type="text"
-              placeholder=""
-              onChange={handleChange}
-              value={formValues.description}
-            />
-          </div>
+    <div className="create-store-wrapper">
+  <h2 className="create-store-title">Create Your Store</h2>
+  <form className="create-store-form" onSubmit={handleSubmit}>
+    {/* Upload Image */}
+    <div className="create-store-input-wrapper">
+      <label htmlFor="picture">Store Image</label>
+      <input
+        type="file"
+        name="picture"
+        accept="image/*"
+        className="create-store-input"
+        onChange={handleFile}
+      />
+    </div>
 
-          <div className="input-wrapper">
-            <label htmlFor="category">Category</label>
-            <CategorySelect
-              handleChange={handleChange}
-              formValues={formValues}
-              multiple={true}
-            />
-          </div>
+    {/* Store Name */}
+    <div className="create-store-input-wrapper">
+      <label htmlFor="name">Store Name</label>
+      <input
+        type="text"
+        name="name"
+        value={formValues.name}
+        onChange={handleChange}
+        className="create-store-input"
+        placeholder="Enter store name"
+        required
+      />
+    </div>
 
-          <div className="input-wrapper">
-            <label htmlFor="city">City</label>
-            <Cities
-              handleChange={handleChange}
-              formValues={formValues}
-              allop={false}
-            />
-          </div>
+    {/* Description */}
+    <div className="create-store-input-wrapper">
+      <label htmlFor="description">Description</label>
+      <input
+        type="text"
+        name="description"
+        value={formValues.description}
+        onChange={handleChange}
+        className="create-store-input"
+        placeholder="Enter description"
+      />
+    </div>
 
-          <button disabled={!formValues.name}>Create Store</button>
-        </form>
-      </div>
-      <button
-        onClick={(e) => {
-          e.preventDefault()
-          navigate("/")
-        }}
-      >
-        Skip For Now
-      </button>
-    </>
+    {/* Category */}
+    <div className="create-store-input-wrapper">
+      <label htmlFor="category">Category</label>
+      <CategorySelect
+        handleChange={handleChange}
+        formValues={formValues}
+        multiple={true}
+        className="create-store-input"
+      />
+    </div>
+
+    {/* City */}
+    <div className="create-store-input-wrapper">
+      <label htmlFor="city">City</label>
+      <Cities
+        handleChange={handleChange}
+        formValues={formValues}
+        allop={false}
+        className="create-store-input"
+      />
+    </div>
+
+    <button type="submit" className="create-store-submit" disabled={!formValues.name}>
+      Create Store
+    </button>
+    <button className="create-store-skip" onClick={(e) => { e.preventDefault(); navigate("/"); }}>
+      Skip For Now
+    </button>
+  </form>
+</div>
+
   )
 }
+
 export default CreateStore
