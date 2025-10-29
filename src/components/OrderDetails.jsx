@@ -4,7 +4,16 @@ const OrderDetails = () => {
   const { state } = useLocation()
   // state.storeId="68fdc427d42b2ea119186b17"
   console.log(state)
-  const checkout=()=>{}
+  const checkout=async(event)=>{
+    event.preventDefault()
+    const fd = new FormData(event.currentTarget)
+    const response = await Client.put(`${BASE_URL}/order/update/${orderId}`)
+    let itemsList = [...items]
+    itemsList.push(response.data)
+    setItems(itemsList)
+    setForm(initialItem)
+    setPictureFile(null)
+  }
   return (
     <div>
       orderDetails
