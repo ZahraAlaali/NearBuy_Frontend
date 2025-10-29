@@ -33,7 +33,7 @@ const OrderDetails = () => {
       })}
       <h2>order price: {state.price}</h2>
       <button>Checkout</button>
-      <Link to="/itemsList">
+      <Link to={`/itemsList/${state.storeId}`}>
         <button>back</button>
       </Link>
     </div>

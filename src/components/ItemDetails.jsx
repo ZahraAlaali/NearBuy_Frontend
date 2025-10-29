@@ -60,10 +60,10 @@ const ItemDetails = ({ items, user, setItems }) => {
         storeId: storeId,
         status: "pending",
       }
-      let response = await Client.post(`order/68fd17f8f260cea4ccbdde75/new`, initialState)
+      let response = await Client.post(`order/${storeId}/new`, initialState)
       setQuantity(0)
       setComment("")
-      if (destination) navigate(destination, {state: response.data})
+      if (destination) navigate(destination, { state: response.data })
     }
   }
 
@@ -113,7 +113,7 @@ const ItemDetails = ({ items, user, setItems }) => {
             checkout
           </button>
           <br />
-          <button onClick={(e) => checkout(e, "/itemsList")}>
+          <button onClick={(e) => checkout(e, `/itemsList/${storeId}`)}>
             add other items
           </button>
           <br />
@@ -125,7 +125,7 @@ const ItemDetails = ({ items, user, setItems }) => {
           <button onClick={handleDelete}>delete</button>
         </div>
       )}
-      <Link to="/itemsList">
+      <Link to={`/itemsList/${storeId}`}>
         <button>back</button>
       </Link>
     </div>
