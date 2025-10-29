@@ -9,10 +9,14 @@ const Orders = ({ user }) => {
 
   const checkout = async (order) => {
     let newStatus
-    if (order.status === "pending" && user.role === "customer") newStatus = "received"
-    else if (order.status === "received" && user.role === "business") newStatus = "ready"
+    if (order.status === "pending" && user.role === "customer")
+      newStatus = "received"
+    else if (order.status === "received" && user.role === "business")
+      newStatus = "ready"
 
-    await Client.put(`${BASE_URL}/order/update/${order._id}`, { status: newStatus })
+    await Client.put(`${BASE_URL}/order/update/${order._id}`, {
+      status: newStatus,
+    })
     setToggle(!toggle)
   }
 
@@ -43,10 +47,25 @@ const Orders = ({ user }) => {
           {user?.role === "business" && (
             <button
               onClick={() => checkout(order)}
-              className={`action-btn checkout-btn ${order.status === "ready" ? "disabled-btn" : ""}`}
+              className={`action-btn checkout-btn ${
+                order.status === "ready" ? "disabled-btn" : ""
+              }`}
               disabled={order.status === "ready"}
             >
               Order Ready for Pickup
+            </button>
+          )}
+          {user?.role === "customer" && (
+            <button
+              onClick={() => {
+                checkout(order)
+              }}
+              className={`action-btn checkout-btn ${
+                order.status !== "pending" ? "disabled-btn" : ""
+              }`}
+              disabled={order.status !== "pending"}
+            >
+              Checkout
             </button>
           )}
         </div>

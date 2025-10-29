@@ -60,69 +60,76 @@ const ItemDetails = ({ items, user, setItems }) => {
     navigate("/")
   }
 
-
   return (
-  <div className="item-details-container">
-    <img
-      src={
-        item.image
-          ? `${BASE_URL}${item.image}`
-          : "https://cdn.vectorstock.com/i/1000v/71/52/food-logo-design-template-vector-30097152.jpg"
-      }
-      alt=""
-    />
-    <h1>{item.name}</h1>
-    <h3>{item.description}</h3>
-    <h3>{item.price}BD</h3>
+    <div className="item-details-container">
+      <img
+        src={
+          item.image
+            ? `${BASE_URL}${item.image}`
+            : "https://cdn.vectorstock.com/i/1000v/71/52/food-logo-design-template-vector-30097152.jpg"
+        }
+        alt=""
+      />
+      <h1>{item.name}</h1>
+      <h3>{item.description}</h3>
+      <h3>{item.price}BD</h3>
 
-    {user.role == "customer" && (
-      <div className="quantity-section">
-        <div className="quantity-controls">
-          <button className="quantity-btn" onClick={handleMinus}>-</button>
-          <input
-            type="number"
-            min="1"
-            onChange={handleQuantityChange}
-            value={quantity}
-            className="quantity-input"
-          />
-          <button className="quantity-btn" onClick={handlePlus}>+</button>
-        </div>
+      {user.role == "customer" && (
+        <div className="quantity-section">
+          <div className="quantity-controls">
+            <button className="quantity-btn" onClick={handleMinus}>
+              -
+            </button>
+            <input
+              type="number"
+              min="1"
+              onChange={handleQuantityChange}
+              value={quantity}
+              className="quantity-input"
+            />
+            <button className="quantity-btn" onClick={handlePlus}>
+              +
+            </button>
+          </div>
 
-        <div className="action-buttons">
-          <button className="blue-btn" onClick={(e) => checkout(e, "/orderDetails")}>
-            Go to checkout
-          </button>
-          <button className="blue-btn" onClick={(e) => checkout(e, `/itemsList/${storeId}`)}>
-            Add other items
-          </button>
-          <br />
+          <div className="action-buttons">
+            <button
+              className="blue-btn"
+              onClick={(e) => checkout(e, "/orderDetails")}
+            >
+              Go to checkout
+            </button>
+            <button
+              className="blue-btn"
+              onClick={(e) => checkout(e, `/itemsList/${storeId}`)}
+            >
+              Add other items
+            </button>
+            <br />
+          </div>
         </div>
       )}
+
       {user.role == "business" && (
-        <div>
+        <div className="action-buttons">
           <button
+            className="blue-btn"
             onClick={() => {
               navigate(`/editItem/${itemId}`)
             }}
           >
-            edit
+            Edit
           </button>
-          <button onClick={handleDelete}>delete</button>
+          <button className="blue-btn" onClick={handleDelete}>
+            Delete
+          </button>
         </div>
-      </div>
-    )}
-    {user.role == "business" && (
-      <div className="action-buttons">
-        <button className="blue-btn">Edit</button>
-        <button className="blue-btn" onClick={handleDelete}>Delete</button>
-      </div>
-    )}
+      )}
 
-    <Link to={`/itemsList/${storeId}`}>
-      <button className="back-btn">Back</button>
-    </Link>
-  </div>
-)
+      <Link to={`/itemsList/${storeId}`}>
+        <button className="back-btn">Back</button>
+      </Link>
+    </div>
+  )
 }
 export default ItemDetails
