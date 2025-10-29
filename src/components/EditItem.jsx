@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { BASE_URL } from "../services/api"
 import { editItem } from "../services/Item"
-import { useNavigate, useParams } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 
 const EditItem = ({ items, setItems }) => {
   let navigate = useNavigate()
@@ -49,71 +49,73 @@ const EditItem = ({ items, setItems }) => {
 
   return (
     <div className="col edit-item">
-  <form onSubmit={handleSubmit}>
-    <div className="input-wrapper">
-      <label htmlFor="name">Item Name</label>
-      <input
-        type="text"
-        onChange={handleChange}
-        value={form.name}
-        name="name"
-        placeholder="Enter item name"
-        required
-        className="form-input"
-      />
-    </div>
+      <form onSubmit={handleSubmit}>
+        <div className="input-wrapper">
+          <label htmlFor="name">Item Name</label>
+          <input
+            type="text"
+            onChange={handleChange}
+            value={form.name}
+            name="name"
+            placeholder="Enter item name"
+            required
+            className="form-input"
+          />
+        </div>
 
-    <div className="input-wrapper">
-      <label htmlFor="description">Description</label>
-      <input
-        type="text"
-        name="description"
-        placeholder="Enter item description"
-        onChange={handleChange}
-        value={form.description}
-        className="form-input"
-      />
-    </div>
+        <div className="input-wrapper">
+          <label htmlFor="description">Description</label>
+          <input
+            type="text"
+            name="description"
+            placeholder="Enter item description"
+            onChange={handleChange}
+            value={form.description}
+            className="form-input"
+          />
+        </div>
 
-    <div className="input-wrapper">
-      <label>Current Image</label>
-      <img
-        className="item-image"
-        src={
-          filtered?.image
-            ? `${BASE_URL}${filtered.image}`
-            : "https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png"
-        }
-        alt="Item image"
-      />
-      <input
-        name="image"
-        type="file"
-        onChange={handleFile}
-        className="form-input"
-      />
-    </div>
+        <div className="input-wrapper">
+          <label>Current Image</label>
+          <img
+            className="item-image"
+            src={
+              filtered?.image
+                ? `${BASE_URL}${filtered.image}`
+                : "https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png"
+            }
+            alt="Item image"
+          />
+          <input
+            name="image"
+            type="file"
+            onChange={handleFile}
+            className="form-input"
+          />
+        </div>
 
-    <div className="input-wrapper">
-      <label htmlFor="price">Price</label>
-      <input
-        type="number"
-        name="price"
-        placeholder="Enter item price"
-        required
-        min="0"
-        step="0.001"
-        onChange={handleChange}
-        value={form.price}
-        className="form-input"
-      />
+        <div className="input-wrapper">
+          <label htmlFor="price">Price</label>
+          <input
+            type="number"
+            name="price"
+            placeholder="Enter item price"
+            required
+            min="0"
+            step="0.001"
+            onChange={handleChange}
+            value={form.price}
+            className="form-input"
+          />
+        </div>
+        <div className="action-buttons">
+          <button className="blue-btn">Update Item</button>
+        </div>
+      </form>
+      <Link to={`/itemsDetails/${itemId}/${filter.storeId}`}>
+        <button className="back-btn">Back</button>
+      </Link>
     </div>
-
-    <div className="form-buttons">
-      <input type="submit" className="btn" value="Update Item" />
-    </div>
-  </form>
-</div>
   )
 }
 export default EditItem

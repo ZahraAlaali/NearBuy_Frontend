@@ -33,6 +33,8 @@ function App() {
   const handleLogOut = () => {
     setUser(null)
     setItems([])
+    setStore(null)
+    setOwnerStore({})
     localStorage.clear()
     navigate("/signin")
   }
@@ -147,8 +149,8 @@ function App() {
             path="/editItem/:itemId"
             element={<EditItem items={items} setItems={setItems} />}
           />
-          <Route path="/orderDetails" element={<OrderDetails user={user}/>} />
-          <Route path="/orders" element={<Orders user={user}/>} />
+          <Route path="/orderDetails" element={<OrderDetails user={user} />} />
+          <Route path="/orders" element={<Orders user={user} />} />
         </Routes>
       </main>
     </>
