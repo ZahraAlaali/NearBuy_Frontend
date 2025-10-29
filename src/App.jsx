@@ -15,6 +15,7 @@ import Profile from "./components/Profile"
 
 function App() {
   let navigate = useNavigate()
+
   const [user, setUser] = useState(null)
   const [items, setItems] = useState([])
 
@@ -22,29 +23,30 @@ function App() {
     const user = await CheckSession()
     setUser(user)
   }
-  const getItems = async () => {
-    try {
-      let response = await Client.get(`/item`)
-      setItems(response.data)
-    } catch (err) {
-      console.log(err)
-    }
-  }
-  useEffect(async () => {
-    const token = localStorage.getItem("token")
 
+  const handleLogOut = () => {
+    setUser(null)
+    setItems([])
+    localStorage.clear()
+    navigate("/signin")
+  }
+
+  useEffect(() => {
+    const token = localStorage.getItem("token")
+    const getItems = async () => {
+      try {
+        let response = await Client.get(`/item`)
+        setItems(response.data)
+      } catch (err) {
+        console.log(err)
+      }
+    }
     if (token) {
       checkToken()
       getItems()
     }
   }, [])
 
-  const handleLogOut = () => {
-    setUser(null)
-    setItems(null)
-    localStorage.clear()
-    navigate("/signin")
-  }
   return (
     <>
       <Nav user={user} handleLogOut={handleLogOut} />
@@ -54,7 +56,12 @@ function App() {
             path="/"
             element={<Home user={user} items={items} setItems={setItems} />}
           />
-          <Route path="/signin" element={<SignIn setUser={setUser} />} />
+
+          <Route
+            path="/signin"
+            element={<SignIn setUser={setUser} setItems={setItems} />}
+          />
+
           <Route path="/register" element={<Register />} />
           <Route
             path="/profile"
@@ -74,18 +81,14 @@ function App() {
           <Route
             path="/createStore"
             element={
-              <CreateStore
-                setUser={setUser}
-                user={user}
-                items={items}
-                checkToken={checkToken}
-                getItems={getItems}
-              />
+              <CreateStore setUser={setUser} user={user} items={items} />
             }
           />
           <Route
             path="/itemsList/:itemId"
-            element={<ItemDetails items={items} user={user} />}
+            element={
+              <ItemDetails items={items} user={user} setItems={setItems} />
+            }
           />
         </Routes>
       </main>

@@ -23,7 +23,7 @@ const Cities = ({ handleChange, formValues, allop }) => {
       <option value="seef">Seef</option>
       <option value="karbabad">Karbabad</option>
       <option value="tubli">Tubli</option>
-
+      <option value="Al-Dair">Al Dair</option>
       <option value="muharraq">Muharraq</option>
       <option value="hidd">Hidd</option>
       <option value="busaiteen">Busaiteen</option>
