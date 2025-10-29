@@ -62,6 +62,7 @@ function App() {
             element={
               <Home
                 user={user}
+                setUser={setUser}
                 items={items}
                 setItems={setItems}
                 store={store}

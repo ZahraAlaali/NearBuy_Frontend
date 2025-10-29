@@ -6,9 +6,11 @@ import Cities from "./Cities.jsx"
 import StoreComp from "./StoreComp"
 import ItemsList from "./ItemsList"
 import { Link, useNavigate } from "react-router-dom"
+import { deleteStore } from "../services/Store.js"
 
 const Home = ({
   user,
+  setUser,
   items,
   setItems,
   store,
@@ -37,6 +39,13 @@ const Home = ({
     load()
     setLoading(false)
   }, [user?.role, user?.hasStore])
+
+  const handleDelete = async () => {
+    await deleteStore(ownerStore._id)
+    setOwnerStore(null)
+    setItems([])
+    setUser({ ...user, hasStore: false, storeId: null })
+  }
 
   const handleChange = async (e) => {
     const next = { ...formValues, [e.target.name]: e.target.value }
@@ -101,16 +110,19 @@ const Home = ({
               ? "Description: " + ownerStore.description
               : ""}
           </p>
-          <p>City: {ownerStore?.city ? ownerStore.city : ""} </p>
-          <button
-            onClick={() => {
-              navigate(`/edit/${ownerStore._id}`)
-            }}
-          >
-            Edit Store
-          </button>
+          <p>{ownerStore?.city ? "City: " + ownerStore.city : ""} </p>
+
+          {user?.hasStore ? (
+            <>
+              <button onClick={() => navigate(`/edit/${ownerStore?._id}`)}>
+                Edit Store
+              </button>
+              <button onClick={handleDelete}>Delete Store</button>
+            </>
+          ) : null}
+
           <div>
-            {ownerStore.name ? (
+            {ownerStore?.name ? (
               <ItemsList
                 storeId={ownerStore._id}
                 user={user}
