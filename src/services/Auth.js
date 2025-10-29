@@ -30,9 +30,7 @@ export const CheckSession = async () => {
 
 export const UpdatePassword = async (data, id) => {
   try {
-    const res = await Client.put(`/auth/update/${id}`, data, {
-      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-    })
+    const res = await Client.put(`/auth/update/${id}`, data)
     return res.data
   } catch (error) {
     throw error

@@ -16,37 +16,35 @@ import Profile from "./components/Profile"
 function App() {
   let navigate = useNavigate()
   const [user, setUser] = useState(null)
+  const [items, setItems] = useState([])
 
   const checkToken = async () => {
     const user = await CheckSession()
     setUser(user)
   }
-  useEffect(() => {
+  const getItems = async () => {
+    try {
+      let response = await Client.get(`/item`)
+      setItems(response.data)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+  useEffect(async () => {
     const token = localStorage.getItem("token")
+
     if (token) {
       checkToken()
+      getItems()
     }
   }, [])
 
   const handleLogOut = () => {
     setUser(null)
+    setItems(null)
     localStorage.clear()
     navigate("/signin")
   }
-  const [items, setItems] = useState([])
-  useEffect(() => {
-    const getItems = async () => {
-      try {
-        let response = await Client.get(`/item`, {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        })
-        setItems(response.data)
-      } catch (err) {
-        console.log(err)
-      }
-    }
-    getItems()
-  }, [])
   return (
     <>
       <Nav user={user} handleLogOut={handleLogOut} />
@@ -76,7 +74,13 @@ function App() {
           <Route
             path="/createStore"
             element={
-              <CreateStore setUser={setUser} user={user} items={items} />
+              <CreateStore
+                setUser={setUser}
+                user={user}
+                items={items}
+                checkToken={checkToken}
+                getItems={getItems}
+              />
             }
           />
           <Route

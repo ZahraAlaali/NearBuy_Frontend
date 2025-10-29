@@ -9,7 +9,9 @@ const Cities = ({ handleChange, formValues, allop }) => {
       {allop ? (
         <option value="all">All</option>
       ) : (
-        <option value="">Select a city…</option>
+        <option value="" disabled>
+          Select a city…
+        </option>
       )}
 
       <option value="manama">Manama</option>

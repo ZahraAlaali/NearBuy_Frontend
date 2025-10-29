@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom"
 import CategorySelect from "./CategorySelect.jsx"
 import Cities from "./Cities.jsx"
 
-const CreateStore = ({ setUser, user }) => {
+const CreateStore = ({ setUser, user, checkToken, getItems }) => {
   let navigate = useNavigate()
 
   const initialState = { name: "", description: "", category: [], city: "" }
@@ -35,9 +35,15 @@ const CreateStore = ({ setUser, user }) => {
       setFormValues(initialState)
       setUser({ ...user, hasStore: true })
       setPictureFile(null)
+      checkToken()
+      getItems()
       navigate("/")
     }
   }
+
+  useEffect(() => {
+    checkToken()
+  }, [])
 
   return (
     <>
@@ -95,7 +101,10 @@ const CreateStore = ({ setUser, user }) => {
         </form>
       </div>
       <button
-        onClick={() => {
+        onClick={(e) => {
+          e.preventDefault()
+          checkToken()
+          getItems()
           navigate("/")
         }}
       >
