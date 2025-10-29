@@ -5,12 +5,19 @@ import CategorySelect from "./CategorySelect.jsx"
 import Cities from "./Cities.jsx"
 import StoreComp from "./StoreComp"
 import ItemsList from "./ItemsList"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
-const Home = ({ user, items, setItems }) => {
+const Home = ({
+  user,
+  items,
+  setItems,
+  store,
+  setStore,
+  ownerStore,
+  setOwnerStore,
+}) => {
+  let navigate = useNavigate()
   let homePage
-  const [store, setStore] = useState(null)
-  const [ownerStore, setOwnerStore] = useState({})
   const [loading, setLoading] = useState(true)
   const [formValues, setFormValues] = useState({ city: "all", category: "all" })
 
@@ -89,7 +96,19 @@ const Home = ({ user, items, setItems }) => {
           <h3>
             {ownerStore?.name ? ownerStore.name : "You don't Have a store"}
           </h3>
-          <p>{ownerStore?.description ? ownerStore.description : ""}</p>
+          <p>
+            {ownerStore?.description
+              ? "Description: " + ownerStore.description
+              : ""}
+          </p>
+          <p>City: {ownerStore?.city ? ownerStore.city : ""} </p>
+          <button
+            onClick={() => {
+              navigate(`/edit/${ownerStore._id}`)
+            }}
+          >
+            Edit Store
+          </button>
           <div>
             {ownerStore.name ? (
               <ItemsList

@@ -13,12 +13,15 @@ import CreateStore from "./components/CreateStore"
 import ItemDetails from "./components/ItemDetails"
 import Profile from "./components/Profile"
 import OrderDetails from "./components/OrderDetails"
+import UpdateStore from "./components/UpdateStore"
 
 function App() {
   let navigate = useNavigate()
 
   const [user, setUser] = useState(null)
   const [items, setItems] = useState([])
+  const [store, setStore] = useState(null)
+  const [ownerStore, setOwnerStore] = useState({})
 
   const checkToken = async () => {
     const user = await CheckSession()
@@ -56,7 +59,17 @@ function App() {
         <Routes>
           <Route
             path="/"
-            element={<Home user={user} items={items} setItems={setItems} />}
+            element={
+              <Home
+                user={user}
+                items={items}
+                setItems={setItems}
+                store={store}
+                setStore={setStore}
+                ownerStore={ownerStore}
+                setOwnerStore={setOwnerStore}
+              />
+            }
           />
 
           <Route
@@ -115,6 +128,15 @@ function App() {
             path="/itemsDetails/:itemId/:storeId"
             element={
               <ItemDetails items={items} user={user} setItems={setItems} />
+            }
+          />
+          <Route
+            path="/edit/:storeId"
+            element={
+              <UpdateStore
+                ownerStore={ownerStore}
+                setOwnerStore={setOwnerStore}
+              />
             }
           />
           <Route path="/orderDetails" element={<OrderDetails />} />
