@@ -5,10 +5,23 @@ import CategorySelect from "./CategorySelect.jsx"
 import Cities from "./Cities.jsx"
 import StoreComp from "./StoreComp"
 import ItemsList from "./ItemsList"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import { deleteStore } from "../services/Store.js"
 import "../App.css"
 
-const Home = ({ user, items, setItems }) => {
+const Home = ({
+  user,
+  setUser,
+  items,
+  setItems,
+  store,
+  setStore,
+  ownerStore,
+  setOwnerStore,
+}) => {
+  let navigate = useNavigate()
+  let homePage
+
   const [store, setStore] = useState(null)
   const [ownerStore, setOwnerStore] = useState({})
   const [loading, setLoading] = useState(true)
@@ -30,6 +43,13 @@ const Home = ({ user, items, setItems }) => {
     }
     load()
   }, [user?.role, user?.hasStore])
+
+  const handleDelete = async () => {
+    await deleteStore(ownerStore._id)
+    setOwnerStore(null)
+    setItems([])
+    setUser({ ...user, hasStore: false, storeId: null })
+  }
 
   const handleChange = async (e) => {
     const next = { ...formValues, [e.target.name]: e.target.value }
@@ -74,7 +94,52 @@ const Home = ({ user, items, setItems }) => {
     )
   } else if (user?.role === "business") {
     if (loading) {
-      return <p className="loading-text">Loading...</p>
+      homePage = <p>Loading...</p>
+    } else {
+      homePage = (
+        <>
+          <img
+            width="300px"
+            src={
+              ownerStore?.picture
+                ? `${BASE_URL}${ownerStore.picture}`
+                : "https://png.pngtree.com/png-vector/20190917/ourmid/pngtree-store-icon-in-line-style-png-image_1736161.jpg"
+            }
+            alt=""
+          />
+          <h3>
+            {ownerStore?.name ? ownerStore.name : "You don't Have a store"}
+          </h3>
+          <p>
+            {ownerStore?.description
+              ? "Description: " + ownerStore.description
+              : ""}
+          </p>
+          <p>{ownerStore?.city ? "City: " + ownerStore.city : ""} </p>
+
+          {user?.hasStore ? (
+            <>
+              <button onClick={() => navigate(`/edit/${ownerStore?._id}`)}>
+                Edit Store
+              </button>
+              <button onClick={handleDelete}>Delete Store</button>
+            </>
+          ) : null}
+
+          <div>
+            {ownerStore?.name ? (
+              <ItemsList
+                storeId={ownerStore._id}
+                user={user}
+                items={items}
+                setItems={setItems}
+              />
+            ) : (
+              ""
+            )}
+          </div>
+        </>
+      )
     }
     return (
       <div className="business-container">

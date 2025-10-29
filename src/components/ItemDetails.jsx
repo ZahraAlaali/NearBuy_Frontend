@@ -96,6 +96,19 @@ const ItemDetails = ({ items, user, setItems }) => {
           <button className="blue-btn" onClick={(e) => checkout(e, `/itemsList/${storeId}`)}>
             Add other items
           </button>
+          <br />
+        </div>
+      )}
+      {user.role == "business" && (
+        <div>
+          <button
+            onClick={() => {
+              navigate(`/editItem/${itemId}`)
+            }}
+          >
+            edit
+          </button>
+          <button onClick={handleDelete}>delete</button>
         </div>
       </div>
     )}
