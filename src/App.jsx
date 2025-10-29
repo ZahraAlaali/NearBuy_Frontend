@@ -10,7 +10,7 @@ import SignIn from "./components/SignIn"
 import Home from "./components/Home"
 import ItemsList from "./components/ItemsList"
 import CreateStore from "./components/CreateStore"
-import ItemDetails from "./components/itemDetails"
+import ItemDetails from "./components/ItemDetails"
 import Profile from "./components/Profile"
 import OrderDetails from "./components/OrderDetails"
 
@@ -32,16 +32,17 @@ function App() {
     navigate("/signin")
   }
 
+  const getItems = async () => {
+    try {
+      let response = await Client.get(`/item`)
+      setItems(response.data)
+    } catch (err) {
+      console.log(err)
+    }
+  }
   useEffect(() => {
     const token = localStorage.getItem("token")
-    const getItems = async () => {
-      try {
-        let response = await Client.get(`/item`)
-        setItems(response.data)
-      } catch (err) {
-        console.log(err)
-      }
-    }
+
     if (token) {
       checkToken()
       getItems()
@@ -53,22 +54,37 @@ function App() {
       <Nav user={user} handleLogOut={handleLogOut} />
       <main>
         <Routes>
-          <Route path="/" element={<Home user={user} />} />
+          <Route
+            path="/"
+            element={<Home user={user} items={items} setItems={setItems} />}
+          />
+
           <Route
             path="/signin"
-            element={<SignIn setUser={setUser} setItems={setItems} />}
+            element={
+              <SignIn
+                setUser={setUser}
+                setItems={setItems}
+                checkToken={checkToken}
+                getItems={getItems}
+              />
+            }
           />
+
           <Route path="/register" element={<Register />} />
           <Route
             path="/profile"
-            element={
-              <Profile user={user} setUser={setUser} checkToken={checkToken} />
-            }
+            element={<Profile user={user} setUser={setUser} />}
           />
           <Route
             path="/itemsList"
             element={
-              <ItemsList user={user} items={items} setItems={setItems} />
+              <ItemsList
+                user={user}
+                items={items}
+                setItems={setItems}
+                storeId={user?.storeId ? user.storeId : null}
+              />
             }
           />
           <Route
@@ -79,6 +95,7 @@ function App() {
                 user={user}
                 items={items}
                 checkToken={checkToken}
+                getItems={getItems}
               />
             }
           />

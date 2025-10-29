@@ -81,6 +81,15 @@ const ItemDetails = ({ items, user, setItems }) => {
   }
   return item ? (
     <div>
+      <img
+        width="200px"
+        src={
+          item.image
+            ? `${BASE_URL}${item.image}`
+            : "https://cdn.vectorstock.com/i/1000v/71/52/food-logo-design-template-vector-30097152.jpg"
+        }
+        alt=""
+      />
       <h1>{item.name}</h1>
       <h3>{item.description}</h3>
       <h3>{item.price}BD</h3>

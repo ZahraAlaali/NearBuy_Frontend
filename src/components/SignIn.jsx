@@ -3,7 +3,7 @@ import { SignInUser } from "../services/Auth"
 import { useNavigate } from "react-router-dom"
 import Client from "../services/api"
 
-const SignIn = ({ setUser,setItems }) => {
+const SignIn = ({ setUser, setItems, checkToken, getItems }) => {
   let navigate = useNavigate()
   const initialState = { email: "", password: "" }
 
@@ -15,11 +15,10 @@ const SignIn = ({ setUser,setItems }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const userData = await SignInUser(formValues)
+    await SignInUser(formValues)
     setFormValues(initialState)
-    setUser(userData)
-    let response = await Client.get(`/item`)
-    setItems(response.data)
+    await checkToken()
+    await getItems()
     navigate("/")
   }
 

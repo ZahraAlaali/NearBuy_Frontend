@@ -4,9 +4,10 @@ import { useState, useEffect } from "react"
 import CategorySelect from "./CategorySelect.jsx"
 import Cities from "./Cities.jsx"
 import StoreComp from "./StoreComp"
+import ItemsList from "./ItemsList"
 import { Link } from "react-router-dom"
 
-const Home = ({ user }) => {
+const Home = ({ user, items, setItems }) => {
   let homePage
   const [store, setStore] = useState(null)
   const [ownerStore, setOwnerStore] = useState({})
@@ -63,7 +64,9 @@ const Home = ({ user }) => {
         </div>
         <div>
           {store?.map((element) => (
-            <StoreComp key={element._id} store={element} />
+            <Link to={`/itemsList/${element._id}`}>
+              <StoreComp store={element} />
+            </Link>
           ))}
         </div>
       </>
@@ -87,6 +90,18 @@ const Home = ({ user }) => {
             {ownerStore?.name ? ownerStore.name : "You don't Have a store"}
           </h3>
           <p>{ownerStore?.description ? ownerStore.description : ""}</p>
+          <div>
+            {ownerStore.name ? (
+              <ItemsList
+                storeId={ownerStore._id}
+                user={user}
+                items={items}
+                setItems={setItems}
+              />
+            ) : (
+              ""
+            )}
+          </div>
         </>
       )
     }

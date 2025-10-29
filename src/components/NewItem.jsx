@@ -2,7 +2,7 @@ import { useState } from "react"
 import axios from "axios"
 import { BASE_URL } from "../services/api"
 import Client from "../services/api"
-const NewItem = ({ items, setItems }) => {
+const NewItem = ({ items, setItems, user, storeId }) => {
   const initialItem = {
     name: "",
     description: "",
@@ -11,19 +11,25 @@ const NewItem = ({ items, setItems }) => {
     storeId: "",
   }
   const [form, setForm] = useState(initialItem)
+  const [pictureFile, setPictureFile] = useState(null)
+
   const handleChange = (event) => {
     setForm({ ...form, [event.target.name]: event.target.value })
   }
+
+  const handleFile = (e) => {
+    setPictureFile(e.target.files?.[0] || null)
+  }
+
   const handleSubmit = async (event) => {
     event.preventDefault()
-    const response = await Client.post(
-      `${BASE_URL}/item/68fd17f8f260cea4ccbdde75`,
-      form
-    )
+    const fd = new FormData(event.currentTarget)
+    const response = await Client.post(`${BASE_URL}/item/${storeId}`, fd)
     let itemsList = [...items]
     itemsList.push(response.data)
     setItems(itemsList)
     setForm(initialItem)
+    setPictureFile(null)
   }
   return (
     <div>
@@ -51,7 +57,7 @@ const NewItem = ({ items, setItems }) => {
         <input
           name="image"
           type="file"
-          onChange={handleChange}
+          onChange={handleFile}
           value={form.image}
         />
         <br />

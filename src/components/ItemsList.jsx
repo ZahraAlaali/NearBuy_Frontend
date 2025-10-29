@@ -1,22 +1,40 @@
 import NewItem from "./newItem"
 import { useEffect, useState } from "react"
 import Client from "../services/api"
-import ItemDetails from "./itemDetails"
+import ItemDetails from "./ItemDetails"
 import { Link } from "react-router-dom"
-const ItemsList = ({ user, items, setItems }) => {
+import { BASE_URL } from "../services/api"
+const ItemsList = ({ user, items, setItems, storeId }) => {
   return (
     <div>
-      {items?.map((item, index) => (
-        <Link to={`${item._id}`}>
+      {items?.map((item) => (
+        <Link key={item._id} to={`/itemsList/${item._id}`}>
           <div key={item._id}>
             <h3>Item name: {item.name}</h3>
-            <h3>Item image: {item.image}</h3>
+            <img
+              width="300px"
+              src={
+                item.image
+                  ? `${BASE_URL}${item.image}`
+                  : "https://cdn.vectorstock.com/i/1000v/71/52/food-logo-design-template-vector-30097152.jpg"
+              }
+              alt=""
+            />
             <h3>Item price: {item.price}</h3>
           </div>
         </Link>
       ))}
-      {user.role == "business" && <NewItem user={user} items={items} setItems={setItems} />}
-      <Link to="/"><button>back</button></Link>
+      <Link to="/">
+        <button>back</button>
+      </Link>
+      {user.role == "business" && (
+        <NewItem
+          user={user}
+          items={items}
+          setItems={setItems}
+          storeId={storeId}
+        />
+      )}
     </div>
   )
 }
