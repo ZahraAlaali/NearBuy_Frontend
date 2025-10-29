@@ -47,7 +47,7 @@ export const deleteStore = async (storeId) => {
 
 export const updateStore = async (storeId, data) => {
   try {
-    const res = await Client.delete(`/store/update/${storeId}`, data)
+    const res = await Client.put(`/store/update/${storeId}`, data)
     return res.data
   } catch (error) {
     throw error
