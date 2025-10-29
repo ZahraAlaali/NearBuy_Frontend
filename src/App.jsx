@@ -31,16 +31,17 @@ function App() {
     navigate("/signin")
   }
 
+  const getItems = async () => {
+    try {
+      let response = await Client.get(`/item`)
+      setItems(response.data)
+    } catch (err) {
+      console.log(err)
+    }
+  }
   useEffect(() => {
     const token = localStorage.getItem("token")
-    const getItems = async () => {
-      try {
-        let response = await Client.get(`/item`)
-        setItems(response.data)
-      } catch (err) {
-        console.log(err)
-      }
-    }
+
     if (token) {
       checkToken()
       getItems()
@@ -52,13 +53,22 @@ function App() {
       <Nav user={user} handleLogOut={handleLogOut} />
       <main>
         <Routes>
-
           <Route
             path="/"
             element={<Home user={user} items={items} setItems={setItems} />}
           />
 
-          <Route path="/signin" element={<SignIn setUser={setUser} setItems={setItems}/>} />
+          <Route
+            path="/signin"
+            element={
+              <SignIn
+                setUser={setUser}
+                setItems={setItems}
+                checkToken={checkToken}
+                getItems={getItems}
+              />
+            }
+          />
 
           <Route path="/register" element={<Register />} />
           <Route
@@ -79,10 +89,21 @@ function App() {
           <Route
             path="/createStore"
             element={
-              <CreateStore setUser={setUser} user={user} items={items} />
+              <CreateStore
+                setUser={setUser}
+                user={user}
+                items={items}
+                checkToken={checkToken}
+                getItems={getItems}
+              />
             }
           />
-          <Route path="/itemsList/:itemId" element={<ItemDetails items={items} user={user} setItems={setItems}/>} />
+          <Route
+            path="/itemsList/:itemId"
+            element={
+              <ItemDetails items={items} user={user} setItems={setItems} />
+            }
+          />
         </Routes>
       </main>
     </>

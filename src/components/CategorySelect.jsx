@@ -8,7 +8,9 @@ const CategorySelect = ({ handleChange, formValues, multiple }) => {
       multiple={multiple ? true : false}
     >
       {multiple ? (
-        <option value="">Select a category…</option>
+        <option value="" disabled>
+          Select a category…
+        </option>
       ) : (
         <option value="all">All</option>
       )}
