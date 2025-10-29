@@ -122,12 +122,12 @@ const Home = ({
           </p>
 
           {user?.hasStore ? (
-            <>
+            <div className="store-buttons">
               <button onClick={() => navigate(`/edit/${ownerStore?._id}`)}>
                 Edit Store
               </button>
               <button onClick={handleDelete}>Delete Store</button>
-            </>
+            </div>
           ) : null}
 
           <div>
