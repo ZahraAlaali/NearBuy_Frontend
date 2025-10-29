@@ -5,18 +5,12 @@ import Client from "../services/api"
 import { BASE_URL } from "../services/api"
 const ItemDetails = ({ items, user, setItems }) => {
   const navigate = useNavigate()
-  // get selected item details
+
   let { itemId, storeId } = useParams()
+
   const [item, setItem] = useState("")
   const [quantity, setQuantity] = useState(0)
-  useEffect(() => {
-    let selectedItem = items.find((item) => {
-      return item._id === itemId
-    })
-    setItem(selectedItem)
-  }, [items, itemId])
 
-  // handle quantity
   const handlePlus = (event) => {
     event.preventDefault()
     setQuantity((prev) => prev + 1)
@@ -33,20 +27,17 @@ const ItemDetails = ({ items, user, setItems }) => {
     setQuantity(Math.max(0, Number(event.target.value)))
   }
 
-  // handle comment
-  const [comment, setComment] = useState("")
-  const handleCommentChange = (event) => {
-    event.preventDefault()
-    setComment(event.target.value)
-  }
+  useEffect(() => {
+    let selectedItem = items.find((item) => {
+      return item._id === itemId
+    })
+    setItem(selectedItem)
+  }, [items, itemId])
 
-  // checkout
-  // const [newItem, setNewItems] = useState(initialState)
   const checkout = async (event, destination) => {
     if (quantity >= 1) {
       event.preventDefault()
       let initialState = {
-        comment,
         items: [
           {
             itemId: item._id,
@@ -62,7 +53,6 @@ const ItemDetails = ({ items, user, setItems }) => {
       }
       let response = await Client.post(`order/${storeId}/new`, initialState)
       setQuantity(0)
-      setComment("")
       if (destination) navigate(destination, { state: response.data })
     }
   }
@@ -77,8 +67,9 @@ const ItemDetails = ({ items, user, setItems }) => {
       }
     })
     setItems(itemList)
-    navigate("/itemsList")
+    navigate("/")
   }
+
   return item ? (
     <div>
       <img
@@ -93,24 +84,20 @@ const ItemDetails = ({ items, user, setItems }) => {
       <h1>{item.name}</h1>
       <h3>{item.description}</h3>
       <h3>{item.price}BD</h3>
-      <h3>{item.stock} pieces are available</h3>
 
       {user.role == "customer" && (
         <div>
-          <label htmlFor="comment">Add comment</label>
-          <input type="text" name="comment" onChange={handleCommentChange} />
-          <br />
           <button onClick={handleMinus}>-</button>
           <input
             type="number"
-            min="0"
+            min="1"
             onChange={handleQuantityChange}
             value={quantity}
           />
           <button onClick={handlePlus}>+</button>
           <br />
           <button onClick={(e) => checkout(e, "/orderDetails")}>
-            checkout
+            Go to checkout
           </button>
           <br />
           <button onClick={(e) => checkout(e, `/itemsList/${storeId}`)}>

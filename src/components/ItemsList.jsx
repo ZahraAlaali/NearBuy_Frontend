@@ -1,7 +1,4 @@
 import NewItem from "./newItem"
-import { useEffect, useState } from "react"
-import Client from "../services/api"
-import ItemDetails from "./itemDetails"
 import { Link, useParams } from "react-router-dom"
 import { BASE_URL } from "../services/api"
 const ItemsList = ({ user, items, setItems, storeId }) => {

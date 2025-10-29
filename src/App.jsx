@@ -13,7 +13,7 @@ import CreateStore from "./components/CreateStore"
 import ItemDetails from "./components/itemDetails"
 import Profile from "./components/Profile"
 import OrderDetails from "./components/OrderDetails"
-
+import Orders from "./components/Orders"
 function App() {
   let navigate = useNavigate()
 
@@ -117,7 +117,8 @@ function App() {
               <ItemDetails items={items} user={user} setItems={setItems} />
             }
           />
-          <Route path="/orderDetails" element={<OrderDetails />} />
+          <Route path="/orderDetails" element={<OrderDetails user={user}/>} />
+          <Route path="/orders" element={<Orders user={user}/>} />
         </Routes>
       </main>
     </>

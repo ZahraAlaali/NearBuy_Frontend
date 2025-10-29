@@ -1,12 +1,10 @@
 import { useState } from "react"
-import axios from "axios"
 import { BASE_URL } from "../services/api"
 import Client from "../services/api"
-const NewItem = ({ items, setItems, user, storeId }) => {
+const NewItem = ({ items, setItems, storeId }) => {
   const initialItem = {
     name: "",
     description: "",
-    stock: 0,
     price: 0,
     storeId: "",
   }
@@ -67,21 +65,11 @@ const NewItem = ({ items, setItems, user, storeId }) => {
           name="price"
           placeholder="Enter item price"
           required
-          min="0"
+          min="1"
           onChange={handleChange}
           value={form.price}
         />
-        <br />
-        <label htmlFor="stock">Enter item stock: </label>
-        <input
-          type="number"
-          name="stock"
-          placeholder="Enter item stock"
-          required
-          min="0"
-          onChange={handleChange}
-          value={form.stock}
-        />
+
         <br />
         <input type="submit" />
       </form>

@@ -12,8 +12,7 @@ const Nav = ({ user, handleLogOut }) => {
           <Link onClick={handleLogOut} to="/">
             Sign Out
           </Link>
-          <Link to="/itemsList">Add item</Link>
-          {/* <Link to="/orderDetails">Orders</Link> */}
+          <Link to="/orders">Orders</Link>
         </>
       )
     } else {
@@ -26,9 +25,9 @@ const Nav = ({ user, handleLogOut }) => {
           <Link onClick={handleLogOut} to="/">
             Sign Out
           </Link>
+          <Link to="/orders">Orders</Link>
 
-          {user.hasStore ? // <Link to="/orderDetails">Orders</Link>
-          null : (
+          {user.hasStore ? null : ( // <Link to="/orderDetails">Orders</Link>
             <Link to="/createStore">Create Store</Link>
           )}
         </>
