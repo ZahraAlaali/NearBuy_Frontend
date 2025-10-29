@@ -9,10 +9,18 @@ const Nav = ({ user, handleLogOut }) => {
         <div className="nav-user-options">
           <h3 className="nav-welcome">Welcome {user.username}!</h3>
           <div className="nav-links">
-            <Link to="/" className="nav-link">Home</Link>
-            <Link to="/profile" className="nav-link">Profile</Link>
-            <Link onClick={handleLogOut} to="/" className="nav-link">Sign Out</Link>
-            <Link to="/orders" className="nav-link">Orders</Link>
+            <Link to="/" className="nav-link">
+              Home
+            </Link>
+            <Link to="/profile" className="nav-link">
+              Profile
+            </Link>
+            <Link onClick={handleLogOut} to="/" className="nav-link">
+              Sign Out
+            </Link>
+            <Link to="/orders" className="nav-link">
+              Orders
+            </Link>
           </div>
         </div>
       )
@@ -22,11 +30,25 @@ const Nav = ({ user, handleLogOut }) => {
         <div className="nav-user-options">
           <h3 className="nav-welcome">Welcome {user.username}!</h3>
           <div className="nav-links">
-            <Link to="/" className="nav-link">Home</Link>
-            <Link to="/profile" className="nav-link">Profile</Link>
-            <Link onClick={handleLogOut} to="/" className="nav-link">Sign Out</Link>
-            <Link to="/orders" className="nav-link">Orders</Link>
-            {!user.hasStore && <Link to="/createStore" className="nav-link">Create Store</Link>}
+            <Link to="/" className="nav-link">
+              Home
+            </Link>
+            <Link to="/profile" className="nav-link">
+              Profile
+            </Link>
+            <Link onClick={handleLogOut} to="/" className="nav-link">
+              Sign Out
+            </Link>
+            {user.hasStore && (
+              <Link to="/orders" className="nav-link">
+                Orders
+              </Link>
+            )}
+            {!user.hasStore && (
+              <Link to="/createStore" className="nav-link">
+                Create Store
+              </Link>
+            )}
           </div>
         </div>
       )
@@ -36,9 +58,15 @@ const Nav = ({ user, handleLogOut }) => {
   const publicOptions = (
     <div className="nav-public-options">
       <div className="nav-links">
-        <Link to="/" className="nav-link">Home</Link>
-        <Link to="/register" className="nav-link">Register</Link>
-        <Link to="/signin" className="nav-link">Sign In</Link>
+        <Link to="/" className="nav-link">
+          Home
+        </Link>
+        <Link to="/register" className="nav-link">
+          Register
+        </Link>
+        <Link to="/signin" className="nav-link">
+          Sign In
+        </Link>
       </div>
     </div>
   )

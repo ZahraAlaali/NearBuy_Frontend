@@ -21,9 +21,6 @@ const Home = ({
 }) => {
   let navigate = useNavigate()
   let homePage
-
-  const [store, setStore] = useState(null)
-  const [ownerStore, setOwnerStore] = useState({})
   const [loading, setLoading] = useState(true)
   const [formValues, setFormValues] = useState({ city: "all", category: "all" })
 
@@ -39,9 +36,9 @@ const Home = ({
         const response = await allStores()
         setStore(response)
       }
-      setLoading(false)
     }
     load()
+    setLoading(false)
   }, [user?.role, user?.hasStore])
 
   const handleDelete = async () => {
@@ -56,7 +53,7 @@ const Home = ({
     const response = await getStoresByFilter(next)
     setFormValues(next)
     setStore(response)
-  } 
+  }
 
   if (user?.role === "customer") {
     return (
@@ -85,7 +82,11 @@ const Home = ({
 
         <div className="stores-list">
           {store?.map((element) => (
-            <Link key={element._id} to={`/itemsList/${element._id}`} className="store-link">
+            <Link
+              key={element._id}
+              to={`/itemsList/${element._id}`}
+              className="store-link"
+            >
               <StoreComp store={element} />
             </Link>
           ))}
@@ -97,8 +98,9 @@ const Home = ({
       homePage = <p>Loading...</p>
     } else {
       homePage = (
-        <>
+        <div className="business-container">
           <img
+            className="store-image"
             width="300px"
             src={
               ownerStore?.picture
@@ -107,15 +109,17 @@ const Home = ({
             }
             alt=""
           />
-          <h3>
+          <h3 className="store-name">
             {ownerStore?.name ? ownerStore.name : "You don't Have a store"}
           </h3>
-          <p>
+          <p className="store-description">
             {ownerStore?.description
               ? "Description: " + ownerStore.description
               : ""}
           </p>
-          <p>{ownerStore?.city ? "City: " + ownerStore.city : ""} </p>
+          <p className="store-description">
+            {ownerStore?.city ? "City: " + ownerStore.city : ""}{" "}
+          </p>
 
           {user?.hasStore ? (
             <>
@@ -127,49 +131,21 @@ const Home = ({
           ) : null}
 
           <div>
-            {ownerStore?.name ? (
-              <ItemsList
-                storeId={ownerStore._id}
-                user={user}
-                items={items}
-                setItems={setItems}
-              />
-            ) : (
-              ""
+            {ownerStore?.name && (
+              <div className="items-section">
+                <ItemsList
+                  storeId={ownerStore._id}
+                  user={user}
+                  items={items}
+                  setItems={setItems}
+                />
+              </div>
             )}
           </div>
-        </>
+        </div>
       )
     }
-    return (
-      <div className="business-container">
-        <img
-          className="store-image"
-          width="300"
-          src={
-            ownerStore?.picture
-              ? `${BASE_URL}${ownerStore.picture}`
-              : "https://png.pngtree.com/png-vector/20190917/ourmid/pngtree-store-icon-in-line-style-png-image_1736161.jpg"
-          }
-          alt={ownerStore?.name || "Store"}
-        />
-        <h3 className="store-name">
-          {ownerStore?.name ? ownerStore.name : "You don't Have a store"}
-        </h3>
-        <p className="store-description">{ownerStore?.description || ""}</p>
-
-        {ownerStore.name && (
-          <div className="items-section">
-            <ItemsList
-              storeId={ownerStore._id}
-              user={user}
-              items={items}
-              setItems={setItems}
-            />
-          </div>
-        )}
-      </div>
-    )
+    return homePage
   }
 }
 
