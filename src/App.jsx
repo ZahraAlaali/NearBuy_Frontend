@@ -31,16 +31,17 @@ function App() {
     navigate("/signin")
   }
 
+  const getItems = async () => {
+    try {
+      let response = await Client.get(`/item`)
+      setItems(response.data)
+    } catch (err) {
+      console.log(err)
+    }
+  }
   useEffect(() => {
     const token = localStorage.getItem("token")
-    const getItems = async () => {
-      try {
-        let response = await Client.get(`/item`)
-        setItems(response.data)
-      } catch (err) {
-        console.log(err)
-      }
-    }
+
     if (token) {
       checkToken()
       getItems()
@@ -59,7 +60,14 @@ function App() {
 
           <Route
             path="/signin"
-            element={<SignIn setUser={setUser} setItems={setItems} />}
+            element={
+              <SignIn
+                setUser={setUser}
+                setItems={setItems}
+                checkToken={checkToken}
+                getItems={getItems}
+              />
+            }
           />
 
           <Route path="/register" element={<Register />} />
@@ -81,7 +89,13 @@ function App() {
           <Route
             path="/createStore"
             element={
-              <CreateStore setUser={setUser} user={user} items={items} />
+              <CreateStore
+                setUser={setUser}
+                user={user}
+                items={items}
+                checkToken={checkToken}
+                getItems={getItems}
+              />
             }
           />
           <Route

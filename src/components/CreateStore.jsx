@@ -103,8 +103,6 @@ const CreateStore = ({ setUser, user, checkToken, getItems }) => {
       <button
         onClick={(e) => {
           e.preventDefault()
-          checkToken()
-          getItems()
           navigate("/")
         }}
       >

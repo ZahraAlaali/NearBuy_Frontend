@@ -8,7 +8,7 @@ const ItemsList = ({ user, items, setItems, storeId }) => {
   return (
     <div>
       {items?.map((item) => (
-        <Link to={`/itemsList/${item._id}`}>
+        <Link key={item._id} to={`/itemsList/${item._id}`}>
           <div key={item._id}>
             <h3>Item name: {item.name}</h3>
             <img
