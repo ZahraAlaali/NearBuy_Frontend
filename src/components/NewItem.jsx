@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { BASE_URL } from "../services/api"
 import Client from "../services/api"
+
 const NewItem = ({ items, setItems, storeId }) => {
   const initialItem = {
     name: "",
@@ -8,6 +9,7 @@ const NewItem = ({ items, setItems, storeId }) => {
     price: 0,
     storeId: "",
   }
+
   const [form, setForm] = useState(initialItem)
   const [pictureFile, setPictureFile] = useState(null)
 
@@ -29,10 +31,12 @@ const NewItem = ({ items, setItems, storeId }) => {
     setForm(initialItem)
     setPictureFile(null)
   }
+
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="name">Enter item name: </label>
+    <div className="new-item-container">
+      <h2 className="form-title">Add New Item</h2>
+      <form className="new-item-form" onSubmit={handleSubmit}>
+        <label htmlFor="name">Item Name</label>
         <input
           type="text"
           onChange={handleChange}
@@ -40,26 +44,28 @@ const NewItem = ({ items, setItems, storeId }) => {
           name="name"
           placeholder="Enter item name"
           required
+          className="form-input"
         />
-        <br />
-        <label htmlFor="description">Enter item description: </label>
+
+        <label htmlFor="description">Description</label>
         <input
           type="text"
           name="description"
           placeholder="Enter item description"
           onChange={handleChange}
           value={form.description}
+          className="form-input"
         />
-        <br />
-        <label htmlFor="image">Upload the item image: </label>
+
+        <label htmlFor="image">Item Image</label>
         <input
           name="image"
           type="file"
           onChange={handleFile}
-          value={form.image}
+          className="form-input"
         />
-        <br />
-        <label htmlFor="price">Enter item price: </label>
+
+        <label htmlFor="price">Price (BHD)</label>
         <input
           type="number"
           name="price"
@@ -68,12 +74,13 @@ const NewItem = ({ items, setItems, storeId }) => {
           min="1"
           onChange={handleChange}
           value={form.price}
+          className="form-input"
         />
 
-        <br />
-        <input type="submit" />
+        <button type="submit" className="submit-button">Add Item</button>
       </form>
     </div>
   )
 }
+
 export default NewItem
