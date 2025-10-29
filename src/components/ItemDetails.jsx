@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import Client from "../services/api"
 import { BASE_URL } from "../services/api"
-const ItemDetails = ({ items, user,setItems }) => {
+const ItemDetails = ({ items, user, setItems }) => {
   const navigate = useNavigate()
   // get selected item details
   let { itemId, storeId } = useParams()
@@ -61,17 +61,22 @@ const ItemDetails = ({ items, user,setItems }) => {
     }
     // console.log("before adding" + newItem)
     // setNewItems({ ...newItem, [event.target.name]: event.target.value })
-    let response = await Client.post(`order/${storeId}/new`, initialState,)
+    let response = await Client.post(`order/${storeId}/new`, initialState)
     setQuantity(0)
     setComment("")
     if (destination) navigate(destination)
   }
 
-
   const handleDelete = async (event) => {
     event.preventDefault()
-    const response=await Client.delete(`${BASE_URL}/item/${item._id}`,)
-    setItems
+    await Client.delete(`${BASE_URL}/item/${item._id}`)
+    let itemList = [...items]
+    itemList.forEach((element, index) => {
+      if (element._id === item._id) {
+        itemList.splice(index, 1)
+      }
+    })
+    setItems(itemList)
     navigate("/itemsList")
   }
   return item ? (
