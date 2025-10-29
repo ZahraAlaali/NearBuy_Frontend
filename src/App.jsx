@@ -14,6 +14,7 @@ import ItemDetails from "./components/ItemDetails"
 import Profile from "./components/Profile"
 import OrderDetails from "./components/OrderDetails"
 import UpdateStore from "./components/UpdateStore"
+import EditItem from "./components/EditItem"
 
 function App() {
   let navigate = useNavigate()
@@ -141,6 +142,10 @@ function App() {
             }
           />
           <Route path="/orderDetails" element={<OrderDetails />} />
+          <Route
+            path="/editItem/:itemId"
+            element={<EditItem items={items} setItems={setItems} />}
+          />
         </Routes>
       </main>
     </>

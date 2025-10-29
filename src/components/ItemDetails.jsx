@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import Client from "../services/api"
 import { BASE_URL } from "../services/api"
+
 const ItemDetails = ({ items, user, setItems }) => {
   const navigate = useNavigate()
   // get selected item details
@@ -121,7 +122,13 @@ const ItemDetails = ({ items, user, setItems }) => {
       )}
       {user.role == "business" && (
         <div>
-          <button>edit</button>
+          <button
+            onClick={() => {
+              navigate(`/editItem/${itemId}`)
+            }}
+          >
+            edit
+          </button>
           <button onClick={handleDelete}>delete</button>
         </div>
       )}
