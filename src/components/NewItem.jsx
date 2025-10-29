@@ -26,7 +26,6 @@ const NewItem = ({ items, setItems, user }) => {
     const response = await Client.post(
       `${BASE_URL}/item/68fd17f8f260cea4ccbdde75`,
       form,
-      { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
     )
     let itemsList = [...items]
     itemsList.push(response.data)

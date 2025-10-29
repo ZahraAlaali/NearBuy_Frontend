@@ -61,9 +61,7 @@ const ItemDetails = ({ items, user,setItems }) => {
     }
     // console.log("before adding" + newItem)
     // setNewItems({ ...newItem, [event.target.name]: event.target.value })
-    let response = await Client.post(`order/${storeId}/new`, initialState, {
-      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-    })
+    let response = await Client.post(`order/${storeId}/new`, initialState,)
     setQuantity(0)
     setComment("")
     if (destination) navigate(destination)
@@ -72,9 +70,7 @@ const ItemDetails = ({ items, user,setItems }) => {
 
   const handleDelete = async (event) => {
     event.preventDefault()
-    const response=await Client.delete(`${BASE_URL}/item/${item._id}`,{
-      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-    })
+    const response=await Client.delete(`${BASE_URL}/item/${item._id}`,)
     setItems
     navigate("/itemsList")
   }
