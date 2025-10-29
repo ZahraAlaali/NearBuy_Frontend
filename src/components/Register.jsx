@@ -44,8 +44,10 @@ const Register = () => {
   }
 
   return (
-    <div className="col register">
-      <form onSubmit={handleSubmit}>
+    <div className="auth-page">
+      <form className="auth-form" onSubmit={handleSubmit}>
+        <h2 className="auth-title">Create Account</h2>
+
         <div className="input-wrapper">
           <label htmlFor="username">Username</label>
           <input
@@ -58,6 +60,7 @@ const Register = () => {
             autoComplete="username"
           />
         </div>
+
         <div className="input-wrapper">
           <label htmlFor="email">Email</label>
           <input
@@ -70,59 +73,69 @@ const Register = () => {
             autoComplete="email"
           />
         </div>
+
         <div className="input-wrapper">
           <label htmlFor="password">Password</label>
           <input
             name="password"
             type="password"
-            placeholder="password"
+            placeholder="Password"
             onChange={handleChange}
             value={formValues.password}
             required
             autoComplete="off"
           />
         </div>
+
         <div className="input-wrapper">
           <label htmlFor="confirmPassword">Confirm Password</label>
           <input
             name="confirmPassword"
             type="password"
-            placeholder="confirm password"
+            placeholder="Confirm Password"
             onChange={handleChange}
             value={formValues.confirmPassword}
             required
             autoComplete="off"
           />
         </div>
-        <div>
-          <input
-            defaultChecked
-            required
-            type="radio"
-            name="role"
-            value="customer"
-            onChange={handleChange}
-          />
-          Customer
-          <input
-            required
-            type="radio"
-            name="role"
-            value="business"
-            onChange={handleChange}
-          />
-          Business
+
+        <div className="role-options">
+          <label>
+            <input
+              defaultChecked
+              required
+              type="radio"
+              name="role"
+              value="customer"
+              onChange={handleChange}
+            />{" "}
+            Customer
+          </label>
+          <label>
+            <input
+              required
+              type="radio"
+              name="role"
+              value="business"
+              onChange={handleChange}
+            />{" "}
+            Business
+          </label>
         </div>
+
         <div className="input-wrapper">
           <input
             type="file"
             name="picture"
             accept="image/*"
+            className="file-input"
             onChange={handleFile}
           />
         </div>
 
         <button
+          className="btn"
           disabled={
             !formValues.username ||
             !formValues.email ||
