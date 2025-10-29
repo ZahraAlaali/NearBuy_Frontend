@@ -12,6 +12,7 @@ const Nav = ({ user, handleLogOut }) => {
           <Link onClick={handleLogOut} to="/">
             Sign Out
           </Link>
+          <Link to="/itemsList">Add item</Link>
         </>
       )
     } else {
@@ -24,6 +25,7 @@ const Nav = ({ user, handleLogOut }) => {
           <Link onClick={handleLogOut} to="/">
             Sign Out
           </Link>
+
           {user.hasStore ? (
             <Link to="/itemsList">Add item</Link>
           ) : (

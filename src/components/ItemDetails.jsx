@@ -8,6 +8,7 @@ const ItemDetails = ({ items, user, setItems }) => {
   // get selected item details
   let { itemId, storeId } = useParams()
   const [item, setItem] = useState("")
+  const [quantity, setQuantity] = useState(0)
   useEffect(() => {
     let selectedItem = items.find((item) => {
       return item._id === itemId
@@ -16,7 +17,6 @@ const ItemDetails = ({ items, user, setItems }) => {
   }, [items, itemId])
 
   // handle quantity
-  const [quantity, setQuantity] = useState(0)
   const handlePlus = (event) => {
     event.preventDefault()
     setQuantity((prev) => prev + 1)
@@ -43,28 +43,28 @@ const ItemDetails = ({ items, user, setItems }) => {
   // checkout
   // const [newItem, setNewItems] = useState(initialState)
   const checkout = async (event, destination) => {
-    event.preventDefault()
-    let initialState = {
-      comment,
-      items: [
-        {
-          itemId: item._id,
-          itemName: item.name,
-          quantity: quantity,
-          itemPrice: item.price,
-        },
-      ],
-      price: quantity * item.price,
-      customerId: user.id,
-      storeId: storeId,
-      status: "pending",
+    if (quantity >= 1) {
+      event.preventDefault()
+      let initialState = {
+        comment,
+        items: [
+          {
+            itemId: item._id,
+            itemName: item.name,
+            quantity: quantity,
+            itemPrice: item.price,
+          },
+        ],
+        price: quantity * item.price,
+        customerId: user.id,
+        storeId: storeId,
+        status: "pending",
+      }
+      let response = await Client.post(`order/68fd17f8f260cea4ccbdde75/new`, initialState)
+      setQuantity(0)
+      setComment("")
+      if (destination) navigate(destination, {state: response.data})
     }
-    // console.log("before adding" + newItem)
-    // setNewItems({ ...newItem, [event.target.name]: event.target.value })
-    let response = await Client.post(`order/${storeId}/new`, initialState)
-    setQuantity(0)
-    setComment("")
-    if (destination) navigate(destination)
   }
 
   const handleDelete = async (event) => {
@@ -100,7 +100,9 @@ const ItemDetails = ({ items, user, setItems }) => {
           />
           <button onClick={handlePlus}>+</button>
           <br />
-          <button onClick={(e) => checkout(e, "/checkout")}>checkout</button>
+          <button onClick={(e) => checkout(e, "/orderDetails")}>
+            checkout
+          </button>
           <br />
           <button onClick={(e) => checkout(e, "/itemsList")}>
             add other items
