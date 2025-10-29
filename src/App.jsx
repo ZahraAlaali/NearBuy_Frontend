@@ -87,6 +87,12 @@ function App() {
             }
           />
           <Route
+            path="/itemsList/:storeIdCus"
+            element={
+              <ItemsList user={user} items={items} setItems={setItems} />
+            }
+          />
+          <Route
             path="/createStore"
             element={
               <CreateStore
@@ -99,7 +105,13 @@ function App() {
             }
           />
           <Route
-            path="/itemsList/:itemId"
+            path="/itemsDetails/:itemId"
+            element={
+              <ItemDetails items={items} user={user} setItems={setItems} />
+            }
+          />
+          <Route
+            path="/itemsDetails/:itemId/:storeId"
             element={
               <ItemDetails items={items} user={user} setItems={setItems} />
             }
