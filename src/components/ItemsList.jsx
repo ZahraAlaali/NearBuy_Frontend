@@ -1,14 +1,14 @@
 import NewItem from "./newItem"
 import { useEffect, useState } from "react"
 import Client from "../services/api"
-import ItemDetails from "./itemDetails"
+import ItemDetails from "./ItemDetails"
 import { Link } from "react-router-dom"
 import { BASE_URL } from "../services/api"
 const ItemsList = ({ user, items, setItems, storeId }) => {
   return (
     <div>
       {items?.map((item) => (
-        <Link to={`${item._id}`}>
+        <Link to={`/itemsList/${item._id}`}>
           <div key={item._id}>
             <h3>Item name: {item.name}</h3>
             <img

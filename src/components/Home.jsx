@@ -64,7 +64,9 @@ const Home = ({ user, items, setItems }) => {
         </div>
         <div>
           {store?.map((element) => (
-            <StoreComp key={element._id} store={element} />
+            <Link to={`/itemsList/${element._id}`}>
+              <StoreComp store={element} />
+            </Link>
           ))}
         </div>
       </>

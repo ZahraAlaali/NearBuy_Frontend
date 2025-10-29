@@ -1,9 +1,9 @@
 import { BASE_URL } from "../services/api"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { updateProfile } from "../services/User.js"
 import { UpdatePassword } from "../services/Auth.js"
 
-const Profile = ({ user, setUser, checkToken }) => {
+const Profile = ({ user, setUser }) => {
   let initialState = {
     username: user?.username,
     email: user?.email,
@@ -14,9 +14,15 @@ const Profile = ({ user, setUser, checkToken }) => {
     newPassword: "",
     confirmPassword: "",
   }
-
+  useEffect(() => {
+    setFormValues({
+      username: user?.username || "",
+      email: user?.email || "",
+      role: user?.role || "",
+    })
+  }, [])
   const [formValues, setFormValues] = useState(initialState)
-  const [pictureFile, setPictureFile] = useState(user.picture)
+  const [pictureFile, setPictureFile] = useState(user?.picture)
   const [passwords, setPassword] = useState(initP)
 
   const handleChangeUpdate = (e) => {
@@ -32,7 +38,6 @@ const Profile = ({ user, setUser, checkToken }) => {
 
   const handleSubmitPassword = async (e) => {
     e.preventDefault()
-    checkToken()
 
     let pass = await UpdatePassword(passwords, user.id)
     if (pass) {
@@ -42,17 +47,20 @@ const Profile = ({ user, setUser, checkToken }) => {
 
   const handleSubmitUpdate = async (e) => {
     e.preventDefault()
-    checkToken()
-    const fd = new FormData(e.currentTarget)
-    const response = await updateProfile(fd)
-    if (response) {
-      initialState = {
-        username: formValues.username,
-        email: formValues.email,
-      }
-      setFormValues(initialState)
-      setUser(response)
+    const fd = new FormData()
+    fd.append("username", formValues.username)
+    fd.append("email", formValues.email)
+    if (pictureFile) {
+      fd.append("picture", pictureFile)
     }
+    const userP = await updateProfile(fd)
+    setUser((prev) => ({
+      ...prev,
+      username: userP.username,
+      email: userP.email,
+      picture: userP.picture ?? "",
+    }))
+    setPictureFile(userP.picture ? userP.picture : null)
   }
   return (
     <>
@@ -62,7 +70,7 @@ const Profile = ({ user, setUser, checkToken }) => {
             <img
               width="100px"
               src={
-                user.picture
+                user?.picture
                   ? `${BASE_URL}${user.picture}`
                   : "https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png"
               }

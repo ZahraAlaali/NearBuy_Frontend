@@ -1,7 +1,8 @@
 import { useParams, useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
-import Client from "../services/api"
+import Client, { BASE_URL } from "../services/api"
+BASE_URL
 const ItemDetails = ({ items, user }) => {
   const navigate = useNavigate()
   // get selected item details
@@ -70,6 +71,15 @@ const ItemDetails = ({ items, user }) => {
 
   return item ? (
     <div>
+      <img
+        width="200px"
+        src={
+          item.image
+            ? `${BASE_URL}${item.image}`
+            : "https://cdn.vectorstock.com/i/1000v/71/52/food-logo-design-template-vector-30097152.jpg"
+        }
+        alt=""
+      />
       <h1>{item.name}</h1>
       <h3>{item.description}</h3>
       <h3>{item.price}BD</h3>
