@@ -1,38 +1,33 @@
 import NewItem from "./newItem"
-import { useEffect, useState } from "react"
-import Client from "../services/api"
-import ItemDetails from "./ItemDetails"
 import { Link, useParams } from "react-router-dom"
 import { BASE_URL } from "../services/api"
+
 const ItemsList = ({ user, items, setItems, storeId }) => {
   let view
-  if (user.role == "customer") {
+
+  if (user.role === "customer") {
     const { storeIdCus } = useParams()
-    const filtered = items.filter((item) => {
-      return item.storeId === storeIdCus
-    })
+    const filtered = items.filter((item) => item.storeId === storeIdCus)
     view = (
-      <div>
-        {filtered?.map((item) => (
-          <Link key={item._id} to={`/itemsDetails/${item._id}/${storeIdCus}`}>
-            <div key={item._id}>
-              <h3>Item name: {item.name}</h3>
-              <img
-                width="300px"
-                src={
-                  item.image
-                    ? `${BASE_URL}${item.image}`
-                    : "https://cdn.vectorstock.com/i/1000v/71/52/food-logo-design-template-vector-30097152.jpg"
-                }
-                alt=""
-              />
-              <h3>Item price: {item.price}</h3>
-            </div>
-          </Link>
-        ))}
-        <Link to="/">
-          <button>back</button>
+      <div className="items-wrapper">
+        <Link to="/" className="back-link">
+          <button className="back-button">Back</button>
         </Link>
+        <div className="items-container">
+          {filtered?.map((item) => (
+            <Link key={item._id} to={`/itemsDetails/${item._id}/${storeIdCus}`} className="item-link">
+              <div className="item-card">
+                <h3 className="item-name">{item.name}</h3>
+                <img
+                  className="item-image"
+                  src={item.image ? `${BASE_URL}${item.image}` : "https://cdn.vectorstock.com/i/1000v/71/52/food-logo-design-template-vector-30097152.jpg"}
+                  alt={item.name}
+                />
+                <h3 className="item-price">{item.price} BHD</h3>
+              </div>
+            </Link>
+          ))}
+        </div>
       </div>
     )
   }
@@ -40,31 +35,28 @@ const ItemsList = ({ user, items, setItems, storeId }) => {
   return user.role === "customer" ? (
     view
   ) : (
-    <div>
-      {items?.map((item) => (
-        <Link key={item._id} to={`/itemsDetails/${item._id}/${storeId}`}>
-          <div key={item._id}>
-            <h3>Item name: {item.name}</h3>
-            <img
-              width="300px"
-              src={
-                item.image
-                  ? `${BASE_URL}${item.image}`
-                  : "https://cdn.vectorstock.com/i/1000v/71/52/food-logo-design-template-vector-30097152.jpg"
-              }
-              alt=""
-            />
-            <h3>Item price: {item.price}</h3>
-          </div>
-        </Link>
-      ))}
-      <NewItem
-        user={user}
-        items={items}
-        setItems={setItems}
-        storeId={storeId}
-      />
+    <div className="items-wrapper">
+      <Link to="/" className="back-link">
+        <button className="back-button">Back</button>
+      </Link>
+      <div className="items-container">
+        {items?.map((item) => (
+          <Link key={item._id} to={`/itemsDetails/${item._id}/${storeId}`} className="item-link">
+            <div className="item-card">
+              <h3 className="item-name">{item.name}</h3>
+              <img
+                className="item-image"
+                src={item.image ? `${BASE_URL}${item.image}` : "https://cdn.vectorstock.com/i/1000v/71/52/food-logo-design-template-vector-30097152.jpg"}
+                alt={item.name}
+              />
+              <h3 className="item-price">{item.price} BHD</h3>
+            </div>
+          </Link>
+        ))}
+      </div>
+      <NewItem user={user} items={items} setItems={setItems} storeId={storeId} />
     </div>
   )
 }
+
 export default ItemsList

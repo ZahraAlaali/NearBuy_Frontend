@@ -7,6 +7,7 @@ import StoreComp from "./StoreComp"
 import ItemsList from "./ItemsList"
 import { Link, useNavigate } from "react-router-dom"
 import { deleteStore } from "../services/Store.js"
+import "../App.css"
 
 const Home = ({
   user,
@@ -20,6 +21,9 @@ const Home = ({
 }) => {
   let navigate = useNavigate()
   let homePage
+
+  const [store, setStore] = useState(null)
+  const [ownerStore, setOwnerStore] = useState({})
   const [loading, setLoading] = useState(true)
   const [formValues, setFormValues] = useState({ city: "all", category: "all" })
 
@@ -35,9 +39,9 @@ const Home = ({
         const response = await allStores()
         setStore(response)
       }
+      setLoading(false)
     }
     load()
-    setLoading(false)
   }, [user?.role, user?.hasStore])
 
   const handleDelete = async () => {
@@ -52,13 +56,13 @@ const Home = ({
     const response = await getStoresByFilter(next)
     setFormValues(next)
     setStore(response)
-  }
+  } 
 
   if (user?.role === "customer") {
-    homePage = (
-      <>
-        <div className="col">
-          <form className="col">
+    return (
+      <div className="home-container">
+        <div className="filter-section">
+          <form className="filter-form">
             <div className="input-wrapper">
               <label htmlFor="category">Category</label>
               <CategorySelect
@@ -78,14 +82,15 @@ const Home = ({
             </div>
           </form>
         </div>
-        <div>
+
+        <div className="stores-list">
           {store?.map((element) => (
-            <Link to={`/itemsList/${element._id}`}>
+            <Link key={element._id} to={`/itemsList/${element._id}`} className="store-link">
               <StoreComp store={element} />
             </Link>
           ))}
         </div>
-      </>
+      </div>
     )
   } else if (user?.role === "business") {
     if (loading) {
@@ -136,8 +141,36 @@ const Home = ({
         </>
       )
     }
-  }
+    return (
+      <div className="business-container">
+        <img
+          className="store-image"
+          width="300"
+          src={
+            ownerStore?.picture
+              ? `${BASE_URL}${ownerStore.picture}`
+              : "https://png.pngtree.com/png-vector/20190917/ourmid/pngtree-store-icon-in-line-style-png-image_1736161.jpg"
+          }
+          alt={ownerStore?.name || "Store"}
+        />
+        <h3 className="store-name">
+          {ownerStore?.name ? ownerStore.name : "You don't Have a store"}
+        </h3>
+        <p className="store-description">{ownerStore?.description || ""}</p>
 
-  return <>{homePage}</>
+        {ownerStore.name && (
+          <div className="items-section">
+            <ItemsList
+              storeId={ownerStore._id}
+              user={user}
+              items={items}
+              setItems={setItems}
+            />
+          </div>
+        )}
+      </div>
+    )
+  }
 }
+
 export default Home
