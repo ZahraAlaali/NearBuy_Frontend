@@ -98,8 +98,15 @@ const EditItem = ({ items, setItems }) => {
         />
         <br />
 
-        <input type="submit" />
+        <button>Edit Item</button>
       </form>
+      <button
+        onClick={() => {
+          navigate(`/itemsDetails/${itemId}/${filter.storeId}`)
+        }}
+      >
+        Back
+      </button>
     </div>
   )
 }
