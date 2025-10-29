@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom"
 import CategorySelect from "./CategorySelect.jsx"
 import Cities from "./Cities.jsx"
 
-const CreateStore = ({ setUser, user, checkToken }) => {
+const CreateStore = ({ setUser, user }) => {
   let navigate = useNavigate()
 
   const initialState = { name: "", description: "", category: [], city: "" }
@@ -35,14 +35,10 @@ const CreateStore = ({ setUser, user, checkToken }) => {
       setFormValues(initialState)
       setUser({ ...user, hasStore: true })
       setPictureFile(null)
-      // checkToken()
       navigate("/")
     }
   }
 
-  useEffect(() => {
-    checkToken()
-  }, [])
   return (
     <>
       <div className="col">

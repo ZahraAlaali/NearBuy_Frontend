@@ -10,7 +10,7 @@ import SignIn from "./components/SignIn"
 import Home from "./components/Home"
 import ItemsList from "./components/ItemsList"
 import CreateStore from "./components/CreateStore"
-import ItemDetails from "./components/itemDetails"
+import ItemDetails from "./components/ItemDetails"
 import Profile from "./components/Profile"
 
 function App() {
@@ -52,30 +52,34 @@ function App() {
       <Nav user={user} handleLogOut={handleLogOut} />
       <main>
         <Routes>
-          <Route path="/" element={<Home user={user} />} />
+
+          <Route
+            path="/"
+            element={<Home user={user} items={items} setItems={setItems} />}
+          />
+
           <Route path="/signin" element={<SignIn setUser={setUser} setItems={setItems}/>} />
+
           <Route path="/register" element={<Register />} />
           <Route
             path="/profile"
-            element={
-              <Profile user={user} setUser={setUser} checkToken={checkToken} />
-            }
+            element={<Profile user={user} setUser={setUser} />}
           />
           <Route
             path="/itemsList"
             element={
-              <ItemsList user={user} items={items} setItems={setItems} />
+              <ItemsList
+                user={user}
+                items={items}
+                setItems={setItems}
+                storeId={user?.storeId ? user.storeId : null}
+              />
             }
           />
           <Route
             path="/createStore"
             element={
-              <CreateStore
-                setUser={setUser}
-                user={user}
-                items={items}
-                checkToken={checkToken}
-              />
+              <CreateStore setUser={setUser} user={user} items={items} />
             }
           />
           <Route path="/itemsList/:itemId" element={<ItemDetails items={items} user={user} setItems={setItems}/>} />

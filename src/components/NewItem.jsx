@@ -2,7 +2,7 @@ import { useState } from "react"
 import axios from "axios"
 import { BASE_URL } from "../services/api"
 import Client from "../services/api"
-const NewItem = ({ items, setItems }) => {
+const NewItem = ({ items, setItems, user, storeId }) => {
   const initialItem = {
     name: "",
     description: "",
@@ -24,6 +24,7 @@ const NewItem = ({ items, setItems }) => {
     itemsList.push(response.data)
     setItems(itemsList)
     setForm(initialItem)
+    setPictureFile(null)
   }
   return (
     <div>
