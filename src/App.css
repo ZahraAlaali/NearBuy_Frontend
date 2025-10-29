@@ -55,13 +55,6 @@ body{
   transform: translateY(-5px);
 }
 
-/* Business store */
-.store-image {
-  border-radius: 12px;
-  margin-bottom: 15px;
-  border: 2px solid #e0e0ff;
-}
-
 .store-name {
   color: #4a4a8c;
   margin-bottom: 10px;
@@ -71,6 +64,7 @@ body{
   color: #555;
   margin-bottom: 20px;
   line-height: 1.6;
+  text-align: center;
 }
 
 /* Items section */
@@ -180,17 +174,20 @@ body{
 }
 
 .store-image {
-  width: 100%;
-  height: 150px;
+  display: block;       /* لازم عشان نقدر نستخدم margin auto */
+  margin: 0 auto 10px;  /* يركز الصورة أفقياً ويضيف مسافة تحتها */
+  width: 100%;          /* تتوسع حسب عرض العنصر الحاوي */
+  max-width: 400px;     /* أقصى عرض للصورة */
+  height: auto;         /* يحافظ على النسب الطبيعية للصورة */
   object-fit: cover;
   border-radius: 10px;
-  margin-bottom: 10px;
 }
 
 .store-name {
   font-size: 1.1rem;
   color: #333;
   font-weight: 600;
+  text-align: center
 }
 
 .city-select:focus {
@@ -689,7 +686,6 @@ body{
 }
 
 .col {
-  width: 100%;
   background: #ffffff;
   padding: 25px;
   border-radius: 12px;
@@ -992,4 +988,54 @@ img {
 .signin form {
   display: flex;
   flex-direction: column;
+}
+.store-buttons {
+  display: flex;
+  justify-content: center; /* يضعهم في الوسط أفقياً */
+  gap: 10px;              /* مسافة بين الأزرار */
+  margin-top: 15px;        /* مسافة فوق الأزرار */
+}
+.col.edit-item {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 15px;
+  background: #f9f9f9;
+  border-radius: 10px;
+}
+
+.input-wrapper {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.form-input {
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.item-image {
+  width: 100%;
+  max-width: 150px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: center;
+}
+
+.btn {
+  padding: 10px 20px;
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.btn:hover {
+  background-color: #357ab8;
 }
