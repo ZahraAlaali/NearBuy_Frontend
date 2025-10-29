@@ -35,3 +35,21 @@ export const getStoresByFilter = async (data) => {
     throw error
   }
 }
+
+export const deleteStore = async (storeId) => {
+  try {
+    const res = await Client.delete(`/store/delete/${storeId}`)
+    return res.data
+  } catch (error) {
+    throw error
+  }
+}
+
+export const updateStore = async (storeId, data) => {
+  try {
+    const res = await Client.delete(`/store/update/${storeId}`, data)
+    return res.data
+  } catch (error) {
+    throw error
+  }
+}

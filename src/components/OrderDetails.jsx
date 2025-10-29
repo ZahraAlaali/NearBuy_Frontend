@@ -4,7 +4,7 @@ const OrderDetails = () => {
   const { state } = useLocation()
   // state.storeId="68fdc427d42b2ea119186b17"
   console.log(state)
-  const checkout=()=>{}
+  const checkout = () => {}
   return (
     <div>
       orderDetails
@@ -24,7 +24,7 @@ const OrderDetails = () => {
       })}
       <h2>order price: {state.price}</h2>
       <button>Checkout</button>
-      <Link to="/itemsList">
+      <Link to={`/itemsList/${state.storeId}`}>
         <button>back</button>
       </Link>
     </div>
