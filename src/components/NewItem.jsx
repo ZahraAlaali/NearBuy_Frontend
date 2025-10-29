@@ -72,6 +72,7 @@ const NewItem = ({ items, setItems, storeId }) => {
           placeholder="Enter item price"
           required
           min="1"
+          step="0.001"
           onChange={handleChange}
           value={form.price}
           className="form-input"
