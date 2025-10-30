@@ -6,7 +6,6 @@ import { Link, useNavigate, useParams } from "react-router-dom"
 const EditItem = ({ items, setItems }) => {
   let navigate = useNavigate()
   const { itemId } = useParams()
-  console.log(itemId)
   let x
   let filter
   items.forEach((item, index) => {
