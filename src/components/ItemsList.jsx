@@ -1,4 +1,4 @@
-import NewItem from "./NewItem"
+import NewItem from "./newItem"
 import { Link, useParams } from "react-router-dom"
 import { BASE_URL } from "../services/api"
 
