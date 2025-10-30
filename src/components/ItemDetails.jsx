@@ -21,6 +21,7 @@ const ItemDetails = ({ items, user, setItems }) => {
   }
 
   const handleQuantityChange = (event) => {
+    // this part is from chatgpt
     setQuantity(Math.max(1, Number(event.target.value)))
   }
 
