@@ -82,7 +82,7 @@ const EditItem = ({ items, setItems }) => {
             src={
               filtered?.image
                 ? `${BASE_URL}${filtered.image}`
-                : "https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png"
+                : "https://d1nhio0ox7pgb.cloudfront.net/_img/i_collection_png/256x256/plain/shopping_basket_full.png"
             }
             alt="Item image"
           />

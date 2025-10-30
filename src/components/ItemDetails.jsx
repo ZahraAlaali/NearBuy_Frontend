@@ -66,7 +66,7 @@ const ItemDetails = ({ items, user, setItems }) => {
         src={
           item.image
             ? `${BASE_URL}${item.image}`
-            : "https://cdn.vectorstock.com/i/1000v/71/52/food-logo-design-template-vector-30097152.jpg"
+            : "https://d1nhio0ox7pgb.cloudfront.net/_img/i_collection_png/256x256/plain/shopping_basket_full.png"
         }
         alt=""
       />

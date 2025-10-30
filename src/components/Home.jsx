@@ -105,7 +105,7 @@ const Home = ({
             src={
               ownerStore?.picture
                 ? `${BASE_URL}${ownerStore.picture}`
-                : "https://png.pngtree.com/png-vector/20190917/ourmid/pngtree-store-icon-in-line-style-png-image_1736161.jpg"
+                : "https://cdn-icons-png.flaticon.com/512/2697/2697432.png"
             }
             alt=""
           />
