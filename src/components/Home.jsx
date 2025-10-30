@@ -100,7 +100,7 @@ const Home = ({
       homePage = (
         <div className="business-container">
           <img
-            className="store-image"
+            className="store-picture"
             width="300px"
             src={
               ownerStore?.picture
