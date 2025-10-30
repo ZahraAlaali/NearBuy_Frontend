@@ -30,7 +30,7 @@
 #### WireFrame [link](https://www.figma.com/site/MZCPfPEYKCZ3XnnsbNjSEh/Untitled?node-id=0-1&p=f&t=8dBD9ESHzvIDRK9G-0)
 
 <!-- backend link: https://nearbuy-backend-foq6.onrender.com/ -->
-#### The project itself was deployed and can be viewed [here]().
+#### The project itself was deployed and can be viewed [here](https://nearbuy.surge.sh/).
 
 ***
 
